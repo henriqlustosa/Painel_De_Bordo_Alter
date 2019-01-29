@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://hspm.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://hspm.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://hspm.org/">
+      <s:element name="getMedicos">
+        <s:complexType />
+      </s:element>
+      <s:element name="getMedicosResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getMedicosResult" type="tns:ArrayOfMedico" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfMedico">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Medico" nillable="true" type="tns:Medico" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Medico">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Cpf" type="s:long" />
+          <s:element minOccurs="0" maxOccurs="1" name="Nome" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="getEspecialidades">
+        <s:complexType />
+      </s:element>
+      <s:element name="getEspecialidadesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getEspecialidadesResult" type="tns:ArrayOfEspecialidade" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfEspecialidade">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Especialidade" nillable="true" type="tns:Especialidade" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Especialidade">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Codigo" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Nome" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="getClinicas">
+        <s:complexType />
+      </s:element>
+      <s:element name="getClinicasResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getClinicasResult" type="tns:ArrayOfClinica" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfClinica">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Clinica" nillable="true" type="tns:Clinica" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Clinica">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Codigo" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Nome" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Aeq" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="getSetoresPS">
+        <s:complexType />
+      </s:element>
+      <s:element name="getSetoresPSResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getSetoresPSResult" type="tns:ArrayOfSetorPS" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfSetorPS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="SetorPS" nillable="true" type="tns:SetorPS" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="SetorPS">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Codigo" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Nome" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="getMedicosSoapIn">
+    <wsdl:part name="parameters" element="tns:getMedicos" />
+  </wsdl:message>
+  <wsdl:message name="getMedicosSoapOut">
+    <wsdl:part name="parameters" element="tns:getMedicosResponse" />
+  </wsdl:message>
+  <wsdl:message name="getEspecialidadesSoapIn">
+    <wsdl:part name="parameters" element="tns:getEspecialidades" />
+  </wsdl:message>
+  <wsdl:message name="getEspecialidadesSoapOut">
+    <wsdl:part name="parameters" element="tns:getEspecialidadesResponse" />
+  </wsdl:message>
+  <wsdl:message name="getClinicasSoapIn">
+    <wsdl:part name="parameters" element="tns:getClinicas" />
+  </wsdl:message>
+  <wsdl:message name="getClinicasSoapOut">
+    <wsdl:part name="parameters" element="tns:getClinicasResponse" />
+  </wsdl:message>
+  <wsdl:message name="getSetoresPSSoapIn">
+    <wsdl:part name="parameters" element="tns:getSetoresPS" />
+  </wsdl:message>
+  <wsdl:message name="getSetoresPSSoapOut">
+    <wsdl:part name="parameters" element="tns:getSetoresPSResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ServSoap">
+    <wsdl:operation name="getMedicos">
+      <wsdl:input message="tns:getMedicosSoapIn" />
+      <wsdl:output message="tns:getMedicosSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getEspecialidades">
+      <wsdl:input message="tns:getEspecialidadesSoapIn" />
+      <wsdl:output message="tns:getEspecialidadesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getClinicas">
+      <wsdl:input message="tns:getClinicasSoapIn" />
+      <wsdl:output message="tns:getClinicasSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getSetoresPS">
+      <wsdl:input message="tns:getSetoresPSSoapIn" />
+      <wsdl:output message="tns:getSetoresPSSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ServSoap" type="tns:ServSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="getMedicos">
+      <soap:operation soapAction="http://hspm.org/getMedicos" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getEspecialidades">
+      <soap:operation soapAction="http://hspm.org/getEspecialidades" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getClinicas">
+      <soap:operation soapAction="http://hspm.org/getClinicas" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getSetoresPS">
+      <soap:operation soapAction="http://hspm.org/getSetoresPS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ServSoap12" type="tns:ServSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="getMedicos">
+      <soap12:operation soapAction="http://hspm.org/getMedicos" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getEspecialidades">
+      <soap12:operation soapAction="http://hspm.org/getEspecialidades" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getClinicas">
+      <soap12:operation soapAction="http://hspm.org/getClinicas" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getSetoresPS">
+      <soap12:operation soapAction="http://hspm.org/getSetoresPS" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Serv">
+    <wsdl:port name="ServSoap" binding="tns:ServSoap">
+      <soap:address location="http://hspmins5/WSHospub/serv.asmx" />
+    </wsdl:port>
+    <wsdl:port name="ServSoap12" binding="tns:ServSoap12">
+      <soap12:address location="http://hspmins5/WSHospub/serv.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

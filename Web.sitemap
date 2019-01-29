@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0" >
+    <siteMapNode url="~/Principal.aspx" title="Início"  description="">
+        <siteMapNode url="~/Consulta/DadosPaciente.aspx" title="Dados do Paciente"  description=""  />
+      <siteMapNode title="Consulta">
+        <siteMapNode url="~/Consulta/Consultas.aspx" title="Agenda do Paciente"  description="" />
+        <siteMapNode url="~/Exames/exameslab.aspx" title="Laboratório"  description="" />
+        <siteMapNode url="~/Exames/exmUacCd.aspx" title="UAC e CD"  description="" />
+        <siteMapNode url="~/Exames/ExmAgendados.aspx" title="Exames Agendados"  description="" />
+        
+      </siteMapNode>
+
+      <siteMapNode title="Pesquisa">
+        <siteMapNode url="~/Pesquisa/Rh.aspx" title="Por Registro"  description="" />
+        <siteMapNode url="~/Pesquisa/Data.aspx" title="Por Data"  description="" />
+      </siteMapNode>
+
+      <siteMapNode title="Relatórios">
+        <siteMapNode url="~/Relatorio/impressao.aspx" title="Mailing Consultas"  description="" />
+        <siteMapNode url="~/Relatorio/impressaoExames.aspx" title="Mailing Exames"  description="" />
+      </siteMapNode>
+     
+	 <siteMapNode title="Agendas">
+        <siteMapNode url="~/Agenda/Agendas156.aspx" title="156 Agendas"  description="" />
+      </siteMapNode>
+     
+      <siteMapNode url="" title="Administração" roles="admin">
+        <siteMapNode url="~/Administracao/cadUser.aspx" title="Cadastro Usuário" />
+        <siteMapNode url="~/Administracao/Perfil.aspx" title="Perfil de Usuário" />
+        <siteMapNode url="~/Administracao/deleteLogin.aspx" title="Exclui Usuário" />
+      </siteMapNode>
+      
+      
+    </siteMapNode>
+</siteMap>

@@ -1,0 +1,83 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPage.master.cs" Inherits="MasterPage" %>
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+	
+
+	
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Central Login</title>
+    <link rel="stylesheet" href="css/style.css" type="text/css" />
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <div id="background">
+        <div id="page" style="z-index: 1">
+            <div id="header">
+                <div id="logo">
+                    <a href="Principal.aspx">
+                        <asp:Image ID="Image1" runat="server" ImageUrl="~/images/logo_hspm.jpg" 
+                        Height="76px" Width="230px" /></a>
+                </div>
+                <%--
+                <div id="navigation">
+                </div>--%>
+            </div>
+            
+            <div id="contents">
+                <h4>
+                    <span>Painel de Bordo</span></h4>
+                <div id="faq">
+                    <form id="form1" runat="server">
+                     <table style="width: 100%;">
+                     <tr>
+                            <td style="font-weight: bold; text-align: right;" colspan="2">
+                                Usuário:
+                                <asp:Label ID="lbUser" runat="server"></asp:Label>
+                                <asp:LoginStatus ID="LoginStatus1" LogoutAction="Redirect"  LogoutPageUrl="~/Login.aspx"  runat="server" />
+                            </td>
+                        </tr>
+                    </table>
+                    <br />
+                    <table align="center">
+                        <tr>
+                            <td style="font-weight: bold; text-align: center;" colspan="2">
+                                <asp:Menu ID="Menu1" runat="server" BackColor="#F7F6F3" 
+                                    DataSourceID="SiteMapDataSource1" DynamicHorizontalOffset="2" 
+                                    Font-Names="Verdana" Font-Size="0.8em" ForeColor="#7C6F57" 
+                                    Orientation="Horizontal" StaticDisplayLevels="2" StaticSubMenuIndent="10px">
+                                    <StaticSelectedStyle BackColor="#5D7B9D" />
+                                    <StaticMenuItemStyle HorizontalPadding="5px" VerticalPadding="2px" />
+                                    <DynamicHoverStyle BackColor="#7C6F57" ForeColor="White" />
+                                    <DynamicMenuStyle BackColor="#F7F6F3" />
+                                    <DynamicSelectedStyle BackColor="#5D7B9D" />
+                                    <DynamicMenuItemStyle HorizontalPadding="5px" VerticalPadding="2px" />
+                                    <StaticHoverStyle BackColor="#7C6F57" ForeColor="White" />
+                                </asp:Menu>
+                                <asp:SiteMapDataSource ID="SiteMapDataSource1" runat="server" />
+                            </td>
+                        </tr>
+                    </table>
+                    
+                    <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                        
+                        <asp:ScriptManager ID="ScriptManager1" runat="server">
+                        </asp:ScriptManager>
+                        
+                    </asp:ContentPlaceHolder>
+                    </form>
+                </div>
+            </div>
+            <div id="footer">
+                <div class="background">
+                    <p class="footnote">
+                        &copy; Copyirght &copy; 2013. <a href="">Hospital do Servidor Público Municipal</a>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
