@@ -195,7 +195,7 @@
         </tr>
         <tr>
             <td colspan="2">
-                Registro Hospitalar:
+                Registros Hospitalar:
                 <asp:TextBox ID="txbRh" runat="server" TabIndex="1"></asp:TextBox>
                 <asp:Button ID="btPesq" runat="server" Text="Pesquisar" OnClick="btPesq_Click" />
                 <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="txbRh"
