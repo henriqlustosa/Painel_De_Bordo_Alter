@@ -88,7 +88,7 @@
     <td>
         <asp:TextBox ID="txbDt" class="campoData"  runat="server"></asp:TextBox>
         <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" 
-            ControlToValidate="txbDt" ErrorMessage="Campo obrigatório!"></asp:RequiredFieldValidator>
+            ControlToValidate="txbDt" ErrorMessage="Campo obrigatório"></asp:RequiredFieldValidator>
         <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server" 
             ControlToValidate="txbDt" ErrorMessage="* Erro no preenchimento da data!" 
             ValidationExpression="^([0-2][0-9]|3[0-1]){1}(/0[0-9]|/1[0-2]){1}(/20[0-9][0-9]){1}$"></asp:RegularExpressionValidator>
