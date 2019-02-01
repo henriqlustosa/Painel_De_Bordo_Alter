@@ -32,10 +32,14 @@
                 Agenda Futura de Consultas Ambulatoriais</h1>
         </div>
         <div>
-       
+     
        <p>O envio da planilha para a Central 156 será necessário criar a agenda no sistema Hospub e bloquear, a agenda deve estar com todas as consultas vagas</p>
+            <br />
+            <br />
        <p>Para exportar as agendas para Excel selecione a especialidade e escolha o profissional.</p>
+            <br />
        <p>Após exportar e enviar para a Central 156 debloquei a agenda no Hospub.</p>
+            <br />
         </div>
         <div align="center">
             <table>
