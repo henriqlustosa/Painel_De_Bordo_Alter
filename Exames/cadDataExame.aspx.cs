@@ -29,6 +29,7 @@ public partial class Exames_cadDataExame : System.Web.UI.Page
         string hrCon = txbHr.Text;
         string executante = txbExecutante.Text;
         int status = 0;//status zero - marcada ativo HSPM
+
         if (chbAtivo.Checked)
         {
             status = 1;//status 1 - marcada ativo 156
