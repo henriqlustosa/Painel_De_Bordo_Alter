@@ -111,8 +111,8 @@
             <tr>
                 <td>
                     <asp:RadioButtonList ID="rdOpcao" runat="server">
-                    <asp:ListItem Text ="Ativo HSPM" Value = 1 ></asp:ListItem>  
-                    <asp:ListItem Text ="Cancelado" Value = 2 ></asp:ListItem>  
+                    <asp:ListItem Text ="Ativo HSPM" Value = "1"></asp:ListItem>  
+                    <asp:ListItem Text ="Cancelado" Value = "2"></asp:ListItem>  
                     </asp:RadioButtonList>
                 </td>
                 <td>
