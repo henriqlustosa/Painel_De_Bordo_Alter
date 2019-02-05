@@ -75,6 +75,43 @@
                 return true;
         }
 
+        function isNumber2(evt) {
+           
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+            return true;
+        }
+
+
+        function replace() {
+
+            var box1 = document.getElementById('<%=txbRh.ClientID%>');
+         
+            document.getElementById('<%=txbRh.ClientID%>').value = box1.value.replace(/^0+/,'');
+        }
+
+      function isNumber() {
+            
+            var box1 = document.getElementById('<%=txbRh.ClientID%>');
+       
+               if (box1.value.length == 1 && box1.value.charCodeAt(0) == 48) { 
+                   document.getElementById('<%=txbRh.ClientID%>').value = "";
+           
+                }
+        
+
+            else if (box1.value.charCodeAt(0) > 31 && ( box1.value.charCodeAt(0) < 48 || box1.value.charCodeAt(0) > 57)) {
+               document.getElementById('<%=txbRh.ClientID%>').value = "";
+          }
+          else
+                    document.getElementById('<%=txbRh.ClientID%>').value = box1.value;
+            
+        }
+        
+
         function checagem(id) {
 
 
@@ -196,8 +233,8 @@
         <tr>
             <td colspan="2">
                 Registros Hospitalar:
-                <asp:TextBox ID="txbRh" runat="server" TabIndex="1"></asp:TextBox>
-                <asp:Button ID="btPesq" runat="server" Text="Pesquisar" OnClick="btPesq_Click" />
+                <asp:TextBox ID="txbRh" runat="server" TabIndex="1" onkeyup="isNumber()" onkeypress="return isNumber2(event)" onblur ="replace()" ></asp:TextBox>
+                <asp:Button ID="btPesq" runat="server" Text="Pesquisar" OnClick="btPesq_Click"  onclientclick ="replace()" />
                 <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="txbRh"
                     ErrorMessage="Apenas números!" ValidationExpression="(^([0-9]*|\d*\d{1}?\d*)$)"></asp:RegularExpressionValidator>
                 <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txbRh"
