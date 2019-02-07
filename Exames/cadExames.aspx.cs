@@ -15,54 +15,44 @@ public partial class Exames_cadExamest : System.Web.UI.Page
     {
         string strID = Request.QueryString["ID"];
 
-        
 
-      
+
+
         if (!IsPostBack)
+        {
+         
+                CarregaPagina(strID);
+                CarregaNome();
+                CarregaExames();
+                CarregaGridViewExamesMarcados(strID );
+                CarregaGridViewExamesSolicitados(strID);
+
+                
+
+        }
+
+    }
+
+    public void CarregaGridViewExamesSolicitados(string strID)
+    {
+        GridView3.DataSource = FilaExames.gridCarregaExames(lbRh.Text, strID);
+        GridView3.DataBind();
+    }
+    public void CarregaGridViewExamesMarcados(string strID)
+    {
+        GridView1.DataSource = FilaExames.gridCarregaExamesMarcados(lbRh.Text, strID);
+        GridView1.DataBind();
+    }
+    public void CarregaExames()
+    {
+        try
         {
             using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["SqlServices"].ToString()))
             {
-                       /*************** Carrega os Dados RH, Especialidade, Solicitante ************************/
                 SqlCommand cmm = cnn.CreateCommand();
                 cmm.Connection = cnn;
-                cmm.CommandText = "SELECT [rh],[especialidade],[solicitante] FROM [Geral_Treina].[dbo].[Fila] WHERE cod =" + strID;
-                cnn.Open();
-                SqlDataReader dr = cmm.ExecuteReader();
-                if (dr.Read())
-                {
-                    lbRh.Text = dr.GetString(0);
-                    
-                    lbEspecialidade.Text = dr.GetString(1);
-                    lbSolicitante.Text = dr.GetString(2);
 
-                    
-                }
-                dr.Close();
-                /************* Carrega o Nome do Paciente *************************/
-                using (OdbcConnection cnn3 = new OdbcConnection(ConfigurationManager.ConnectionStrings["HospubConn"].ToString()))
-                {
-                    OdbcCommand cmm3 = cnn3.CreateCommand();
-                    cmm3.CommandText = "Select ib6pnome, ib6compos from intb6 where ib6regist = " + lbRh.Text;
-                    cnn3.Open();
-                    OdbcDataReader dr3 = cmm3.ExecuteReader();
-                    if (dr3.Read())
-                    {
-                        
-                        lbPaciente.Text = dr3.GetString(0) + dr3.GetString(1);
-                    }
-                    dr3.Close();
-                }
-                
-                /*************** Carrega o Grupo de exames ************************/
-              
-                cmm.CommandText = "Select * from Grupo_Exame order by Descricao";
-                
-                SqlDataReader dr2 = cmm.ExecuteReader();
-                ddlGrupo.DataSource = dr2;
-                ddlGrupo.DataValueField = "Cod_Grupo_Exame";
-                ddlGrupo.DataTextField = "Descricao";
-                ddlGrupo.DataBind();
-                dr2.Close();
+
                 /********* Carrega exames conforme Grupo selecionado ***************/
                 cmm.CommandText = "Select * from Exames where Cod_Grupo_Exame = @cod_grupo order by Descricao";
                 cmm.Parameters.Add("@cod_grupo", SqlDbType.Int).Value = Convert.ToInt32(ddlGrupo.SelectedValue);
@@ -72,17 +62,101 @@ public partial class Exames_cadExamest : System.Web.UI.Page
                 ddlExame.DataTextField = "Descricao";
                 ddlExame.DataBind();
                 dr1.Close();
-                GridView3.DataSource = FilaExames.gridCarregaExames(lbRh.Text);
-                GridView3.DataBind();
-
-                GridView1.DataSource = FilaExames.gridCarregaExamesMarcados(lbRh.Text);
-                GridView1.DataBind();
             }
+        }
+        catch (Exception ex)
+        {
+            string erro = ex.Message;
+
+        }
+    }
+
+    public void CarregaPagina( string strID)
+    {  
+        try
+        {
+            using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["SqlServices"].ToString()))
+            {
+                /*************** Carrega os Dados RH, Especialidade, Solicitante ************************/
+                SqlCommand cmm = cnn.CreateCommand();
+                cmm.Connection = cnn;
+                cmm.CommandText = "SELECT [rh],[especialidade],[solicitante] FROM [Geral_Treina].[dbo].[Fila] WHERE cod =" + strID;
+                cnn.Open();
+                SqlDataReader dr = cmm.ExecuteReader();
+                if (dr.Read())
+                {
+                    lbRh.Text = dr.GetString(0);
+
+                    lbEspecialidade.Text = dr.GetString(1);
+                    lbSolicitante.Text = dr.GetString(2);
+
+
+                }
+                dr.Close();
+            }
+        }
+        catch (Exception ex)
+        {
+            string erro = ex.Message;
+
+        }
+    }
+
+    public void CarregaNome()
+    {
+        /************* Carrega o Nome do Paciente *************************/
+        try
+        { 
+            using (OdbcConnection cnn3 = new OdbcConnection(ConfigurationManager.ConnectionStrings["HospubConn"].ToString()))
+            {
+                OdbcCommand cmm3 = cnn3.CreateCommand();
+                cmm3.CommandText = "Select ib6pnome, ib6compos from intb6 where ib6regist = " + lbRh.Text;
+                cnn3.Open();
+                OdbcDataReader dr3 = cmm3.ExecuteReader();
+                if (dr3.Read())
+                {
+
+                    lbPaciente.Text = dr3.GetString(0) + dr3.GetString(1);
+                }
+                dr3.Close();
+            }
+        }
+        catch (Exception ex)
+        {
+            string erro = ex.Message;
 
         }
 
-    }
 
+    }
+    public void CarregaGrupo()
+    {
+        /************* Carrega o Grupo de Exames *************************/
+        try
+        {
+            using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["SqlServices"].ToString()))
+            {
+
+                SqlCommand cmm = cnn.CreateCommand();
+                cmm.Connection = cnn;
+                cmm.CommandText = "Select * from Grupo_Exame order by Descricao";
+
+                SqlDataReader dr2 = cmm.ExecuteReader();
+                ddlGrupo.DataSource = dr2;
+                ddlGrupo.DataValueField = "Cod_Grupo_Exame";
+                ddlGrupo.DataTextField = "Descricao";
+                ddlGrupo.DataBind();
+                dr2.Close();
+            }
+        }
+        catch (Exception ex)
+        {
+            string erro = ex.Message;
+
+        }
+
+
+    }
 
     protected void btnCad_Click(object sender, EventArgs e)
     {
@@ -186,31 +260,31 @@ public partial class Exames_cadExamest : System.Web.UI.Page
 
         using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["SqlServices"].ToString()))
         {
-             try
+            try
             {
-            /********* Carrega exames conforme Grupo selecionado ***************/
-            SqlCommand cmm = cnn.CreateCommand();
-            cmm.CommandText = "SELECT [qtdExames] FROM [Geral_Treina].[dbo].[Fila] where cod =" + cod_fila;
-            cmm.Parameters.Add("@cod_grupo", SqlDbType.Int).Value = Convert.ToInt32(ddlGrupo.SelectedValue);
-            cmm.Connection = cnn;
-            cnn.Open();
-            SqlDataReader dr1 = cmm.ExecuteReader();
-            if (dr1.Read())
-            {
-                qtdExames = dr1.GetInt32(0);
-                qtdExames = qtdExames + 1;
+                /********* Carrega exames conforme Grupo selecionado ***************/
+                SqlCommand cmm = cnn.CreateCommand();
+                cmm.CommandText = "SELECT [qtdExames] FROM [Geral_Treina].[dbo].[Fila] where cod =" + cod_fila;
+                cmm.Parameters.Add("@cod_grupo", SqlDbType.Int).Value = Convert.ToInt32(ddlGrupo.SelectedValue);
+                cmm.Connection = cnn;
+                cnn.Open();
+                SqlDataReader dr1 = cmm.ExecuteReader();
+                if (dr1.Read())
+                {
+                    qtdExames = dr1.GetInt32(0);
+                    qtdExames = qtdExames + 1;
 
 
+                }
+
+
+                dr1.Close();
             }
-           
-          
-            dr1.Close();
+            catch (Exception ex)
+            {
+                string erro2 = ex.Message;
+                Response.Write("<script language='javascript'>alert('Erro na operação " + erro2 + "');</script>");
             }
-             catch (Exception ex)
-             {
-                 string erro2 = ex.Message;
-                 Response.Write("<script language='javascript'>alert('Erro na operação " + erro2 + "');</script>");
-             }
         }
 
 
@@ -223,7 +297,7 @@ public partial class Exames_cadExamest : System.Web.UI.Page
 
             //atualizar
             cmm.Parameters.Add("@qtdExames", SqlDbType.Int).Value = qtdExames;
-     
+
 
             try
             {
@@ -232,9 +306,21 @@ public partial class Exames_cadExamest : System.Web.UI.Page
             }
             catch (Exception ex)
             {
-              err = ex.Message;
-              erro = 1;
+                err = ex.Message;
+                erro = 1;
             }
         }
+    }
+
+    protected void btnAtualizar_Click(object sender, EventArgs e)
+    {
+
+    }
+    protected void GridView3_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+    }
+    protected void GridView1_SelectedIndexChanged(object sender, EventArgs e)
+    {
     }
 }

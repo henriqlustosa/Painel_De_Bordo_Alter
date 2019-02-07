@@ -76,12 +76,25 @@
         }
 
         function isNumber2(evt) {
-           
+            
             evt = (evt) ? evt : window.event;
-            var charCode = (evt.which) ? evt.which : evt.keyCode;
-            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      
+            var keyCode = (evt.which) ? evt.which : evt.keyCode;
+                // Allow: backspace, delete, tab, escape, enter and .
+            if ($.inArray(keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+                // Allow: Ctrl+A,Ctrl+C,Ctrl+V, Command+A
+                ((keyCode == 65 || keyCode == 86 || keyCode == 67) && (evt.ctrlKey === true || evt.metaKey === true )) ||
+                // Allow: home, end, left, right, down, up
+                (keyCode >= 35 && keyCode <= 40))
+            {
+             
+                return true;
+            }
+
+            else if (keyCode > 31 && (keyCode < 48 || keyCode > 57)) {
                 return false;
             }
+            else
             return true;
         }
 
