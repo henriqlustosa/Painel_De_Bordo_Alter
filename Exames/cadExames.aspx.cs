@@ -20,12 +20,15 @@ public partial class Exames_cadExamest : System.Web.UI.Page
 
         if (!IsPostBack)
         {
-         
+
+            btnAtualizar.Enabled = false;
                 CarregaPagina(strID);
                 CarregaNome();
+                CarregaGrupo();
                 CarregaExames();
-                CarregaGridViewExamesMarcados(strID );
                 CarregaGridViewExamesSolicitados(strID);
+                CarregaGridViewExamesMarcados(strID );
+                
 
                 
 
@@ -35,13 +38,13 @@ public partial class Exames_cadExamest : System.Web.UI.Page
 
     public void CarregaGridViewExamesSolicitados(string strID)
     {
-        GridView3.DataSource = FilaExames.gridCarregaExames(lbRh.Text, strID);
-        GridView3.DataBind();
+        grvExamesSolicitados.DataSource = FilaExames.gridCarregaExamesSolicitados(strID);
+        grvExamesSolicitados.DataBind();
     }
     public void CarregaGridViewExamesMarcados(string strID)
     {
-        GridView1.DataSource = FilaExames.gridCarregaExamesMarcados(lbRh.Text, strID);
-        GridView1.DataBind();
+        grvExamesMarcados.DataSource = FilaExames.gridCarregaExamesMarcados(strID);
+        grvExamesMarcados.DataBind();
     }
     public void CarregaExames()
     {
@@ -51,6 +54,7 @@ public partial class Exames_cadExamest : System.Web.UI.Page
             {
                 SqlCommand cmm = cnn.CreateCommand();
                 cmm.Connection = cnn;
+                cnn.Open();
 
 
                 /********* Carrega exames conforme Grupo selecionado ***************/
@@ -89,6 +93,7 @@ public partial class Exames_cadExamest : System.Web.UI.Page
 
                     lbEspecialidade.Text = dr.GetString(1);
                     lbSolicitante.Text = dr.GetString(2);
+                    
 
 
                 }
@@ -139,6 +144,7 @@ public partial class Exames_cadExamest : System.Web.UI.Page
 
                 SqlCommand cmm = cnn.CreateCommand();
                 cmm.Connection = cnn;
+                cnn.Open();
                 cmm.CommandText = "Select * from Grupo_Exame order by Descricao";
 
                 SqlDataReader dr2 = cmm.ExecuteReader();
@@ -158,14 +164,7 @@ public partial class Exames_cadExamest : System.Web.UI.Page
 
     }
 
-    protected void btnCad_Click(object sender, EventArgs e)
-    {
-        string codExame = ddlExame.SelectedValue;
-        string exame = ddlExame.SelectedItem.ToString();
-
-      //  listBoxCod.Items.Add(new ListItem(codExame));
-       // listBoxExm.Items.Add(new ListItem(exame));
-    }
+ 
 
 
     protected void ddlGrupo_SelectedIndexChanged(object sender, EventArgs e)
@@ -203,7 +202,7 @@ public partial class Exames_cadExamest : System.Web.UI.Page
         {
            
                     // invoca método para gravar dados
-            InserirExames(rh, solicitante, cod_exame, impr, status, cod_fila,usuario,obs,especialidade,dataCadastro );
+            InserirExames(rh, solicitante, cod_exame, impr, status, cod_fila,usuario,obs,especialidade,dataCadastro,dataCadastro );
             AdicionarExame(cod_fila);
             
         }
@@ -216,11 +215,11 @@ public partial class Exames_cadExamest : System.Web.UI.Page
         this.ClientScript.RegisterClientScriptBlock(this.GetType(), "Fechar", "window.close()", true);
     }
 
-    private void InserirExames(int rh,string solic ,string p,bool impr, int status, int cod_fila, string usuario, string obs,string especialidade, DateTime dataCadastro  )
+    private void InserirExames(int rh,string solic ,string p,bool impr, int status, int cod_fila, string usuario, string obs,string especialidade, DateTime dataCadastro, DateTime dataUltimaAtualizacao)
     {
-        int _rh = rh;
+   
         int cod_exame = Convert.ToInt32(p);
-        string sSql = "Insert Into Exames_Paciente (rh, solicitante ,cod_exame,impr, status, cod_fila, usuario, obs, especialidade, dataCadastro) Values (@rh,@sol,@cod_exame,@impr,@status, @cod_fila,@usuario,@obs, @especialidade,@dataCadastro);";
+        string sSql = "Insert Into Exames_Paciente (rh, solicitante ,cod_exame,impr, status, cod_fila, usuario, obs, especialidade, dataCadastro,dataUltimaAtualizacao) Values (@rh,@sol,@cod_exame,@impr,@status, @cod_fila,@usuario,@obs, @especialidade,@dataCadastro,@dataUltimaAtualizacao);";
         using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["SqlServices"].ToString()))
         {
             SqlCommand cmm = new SqlCommand();
@@ -240,12 +239,47 @@ public partial class Exames_cadExamest : System.Web.UI.Page
                 cmm.Parameters.Add("@obs", SqlDbType.VarChar).Value = obs;
                 cmm.Parameters.Add("@especialidade", SqlDbType.VarChar).Value = especialidade;
                 cmm.Parameters.Add("@dataCadastro", SqlDbType.DateTime).Value = dataCadastro;
-          
+                cmm.Parameters.Add("@dataUltimaAtualizacao", SqlDbType.DateTime).Value = dataUltimaAtualizacao;
+
                 cmm.ExecuteNonQuery();
             }
             catch (SqlException e)
             {
                
+                Response.Write("<script language='javascript'>alert('Erro na operação " + e + "');</script>");
+            }
+        }
+    }
+    private void UpdateExames(int rh, string solic, string p, bool impr, int status, int cod_fila, string usuario, string obs, string especialidade, DateTime dataUltimaAtualizacao, string cod)
+    {
+        
+        int cod_exame = Convert.ToInt32(p);
+        string sSql = "UPDATE Exames_Paciente SET rh = @rh, solicitante = @sol,cod_exame = @cod_exame,impr = @impr, status = @status, cod_fila = @cod_fila, usuario = @usuario, obs = @obs, especialidade = @especialidade, dataUltimaAtualizacao = @dataUltimaAtualizacao where cod = " + cod;
+        using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["SqlServices"].ToString()))
+        {
+            SqlCommand cmm = new SqlCommand();
+            try
+            {
+                cmm.Connection = cnn;
+                cnn.Open();
+
+                cmm.CommandText = sSql;
+                cmm.Parameters.Add("@rh", SqlDbType.Int).Value = rh;
+                cmm.Parameters.Add("@sol", SqlDbType.VarChar).Value = solic;
+                cmm.Parameters.Add("@cod_exame", SqlDbType.Int).Value = cod_exame;
+                cmm.Parameters.Add("@impr", SqlDbType.Bit).Value = impr;
+                cmm.Parameters.Add("@status", SqlDbType.Int).Value = 4;//1-marcada;2-realizada;3-cancelada;4-aguardando vaga
+                cmm.Parameters.Add("@cod_fila", SqlDbType.Int).Value = cod_fila;
+                cmm.Parameters.Add("@usuario", SqlDbType.VarChar).Value = usuario;
+                cmm.Parameters.Add("@obs", SqlDbType.VarChar).Value = obs;
+                cmm.Parameters.Add("@especialidade", SqlDbType.VarChar).Value = especialidade;
+                cmm.Parameters.Add("@dataUltimaAtualizacao", SqlDbType.DateTime).Value = dataUltimaAtualizacao;
+
+                cmm.ExecuteNonQuery();
+            }
+            catch (SqlException e)
+            {
+
                 Response.Write("<script language='javascript'>alert('Erro na operação " + e + "');</script>");
             }
         }
@@ -314,13 +348,57 @@ public partial class Exames_cadExamest : System.Web.UI.Page
 
     protected void btnAtualizar_Click(object sender, EventArgs e)
     {
+        int rh = Convert.ToInt32(lbRh.Text);
+        string solicitante = lbSolicitante.Text;
+        string especialidade = lbEspecialidade.Text;
+        string cod_exame = ddlExame.SelectedValue;
+        string cod = grvExamesSolicitados.SelectedRow.Cells[2].Text;
+        int cod_fila = Convert.ToInt32(Request.QueryString["ID"]);
+        string obs = txbObs.Text;
+        bool impr = false; // mandado para o mailling ou não.
+        int status = 4;// colocar o status de Enc para CD
+        string usuario = Request.QueryString["user"];
+        DateTime dataAtualizacao = DateTime.Now;
+        try
+        {
+
+            // invoca método para gravar dados
+            UpdateExames(rh, solicitante, cod_exame, impr, status, cod_fila, usuario, obs, especialidade, dataAtualizacao,cod );
+         
+
+        }
+        catch (SqlException e1)
+        {
+            Response.Write("<script language='javascript'>alert('Erro ao atualizar registro " + e1 + "');</script>");
+        }
+
+        Response.Write("<script language=javascript>alert('Atualizado com sucesso!');</script>");
+        this.ClientScript.RegisterClientScriptBlock(this.GetType(), "Fechar", "window.close()", true);
+
+       
 
     }
-    protected void GridView3_SelectedIndexChanged(object sender, EventArgs e)
-    {
 
-    }
-    protected void GridView1_SelectedIndexChanged(object sender, EventArgs e)
+    
+    protected void grvExamesMarcados_SelectedIndexChanged(object sender, EventArgs e)
     {
+        btnCadastrar.Enabled = false;
+        btnAtualizar.Enabled = true;
+    }
+
+
+
+
+    protected void grvExamesSolicitados_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        btnCadastrar.Enabled = false;
+        btnAtualizar.Enabled = true;
+
+        lbSolicitante.Text = grvExamesSolicitados.SelectedRow.Cells[3].Text;
+        lbEspecialidade.Text = grvExamesSolicitados.SelectedRow.Cells[4].Text;
+        ddlGrupo.SelectedItem.Text = grvExamesSolicitados.SelectedRow.Cells[5].Text;
+        ddlExame.SelectedItem.Text = grvExamesSolicitados.SelectedRow.Cells[6].Text;
+        txbObs.Text = grvExamesSolicitados.SelectedRow.Cells[7].Text;
+
     }
 }
