@@ -263,7 +263,7 @@
         <tr>
             <td>
                 Nome:
-                <asp:Label ID="lbNome" runat="server" Text=""></asp:Label>
+                <asp:Label ID="lbNome" runat="server" ></asp:Label>
             </td>
             <td>
                 Idade:

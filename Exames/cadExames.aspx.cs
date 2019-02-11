@@ -398,7 +398,13 @@ public partial class Exames_cadExamest : System.Web.UI.Page
         lbEspecialidade.Text = grvExamesSolicitados.SelectedRow.Cells[4].Text;
         ddlGrupo.SelectedItem.Text = grvExamesSolicitados.SelectedRow.Cells[5].Text;
         ddlExame.SelectedItem.Text = grvExamesSolicitados.SelectedRow.Cells[6].Text;
-        txbObs.Text = grvExamesSolicitados.SelectedRow.Cells[7].Text;
+        txbObs.Text = Server.HtmlDecode(grvExamesSolicitados.SelectedRow.Cells[7].Text);
 
+    }
+
+    protected void grvExamesSolicitados_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        e.Row.Cells[1].Visible = false;
+        e.Row.Cells[2].Visible = false;
     }
 }

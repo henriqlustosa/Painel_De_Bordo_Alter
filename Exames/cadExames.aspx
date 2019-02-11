@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="cadExames.aspx.cs" Inherits="Exames_cadExamest" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="cadExames.aspx.cs" Inherits="Exames_cadExamest"  %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -159,7 +159,7 @@
         <asp:Panel ID="Panel5" runat="server" GroupingText="Exames solicitados">
         <asp:GridView ID="grvExamesSolicitados" runat="server" CellPadding="4" GridLines="Vertical"
              Font-Size="Small" Width="850px" BackColor="White"
-            BorderColor="#336666" BorderStyle="Double" BorderWidth="1px" OnSelectedIndexChanged="grvExamesSolicitados_SelectedIndexChanged" AutoGenerateSelectButton="True" >
+            BorderColor="#336666" BorderStyle="Double" BorderWidth="1px" OnSelectedIndexChanged="grvExamesSolicitados_SelectedIndexChanged" AutoGenerateSelectButton="True" OnRowDataBound="grvExamesSolicitados_RowDataBound" >
             <RowStyle BackColor="White" ForeColor="#333333" />
             <FooterStyle BackColor="White" ForeColor="#333333" />
             <PagerStyle BackColor="#336666" ForeColor="White" HorizontalAlign="Center" />
