@@ -329,7 +329,7 @@ public partial class Relatorio_impressao : System.Web.UI.Page
 		{
 			for (int k = 0; k < GridView1.Rows[j].Cells.Count; k++)
 			{
-				str.Append(HttpUtility.HtmlDecode( GridView1.Rows[j].Cells[k].Text + ';'));
+				str.Append(HttpUtility.HtmlDecode( GridView1.Rows[j].Cells[k].Text + ';').Replace("\r\n", " ").Replace("\n", " ").Replace("\r", " ").Replace("\t", " "));
 			}
 			str.AppendLine();
 		}
