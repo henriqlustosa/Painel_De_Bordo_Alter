@@ -58,6 +58,19 @@
       </script>
     <title></title>
       
+    <style type="text/css">
+        .auto-style1 {
+            width: 207px;
+        }
+        .auto-style2 {
+            height: 59px;
+        }
+        .auto-style3 {
+            width: 207px;
+            height: 59px;
+        }
+    </style>
+      
 </head>
 <body>
  
@@ -67,11 +80,20 @@
         <table>
         <tr>
            
-                <td>
+                <td class="auto-style2">
                     Registro Hospitalar:
                 </td>
-                <td>
+                <td class="auto-style2">
                     <asp:Label ID="lbRh" runat="server" Text=""></asp:Label>
+                </td>
+                <td class="auto-style3">
+                    <asp:Label ID="lbSituacao" runat="server" Text="Situação: "></asp:Label>
+                </td>
+                <td class="auto-style2">
+                         <asp:DropDownList ID="ddlSituacao" TabIndex="5" runat="server" DataSourceID="SqlDataSource1" DataTextField="Descricao" DataValueField="Cod_Situacao">
+                         
+                        </asp:DropDownList>
+                         <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:SqlServices %>" SelectCommand="SELECT [Cod_Situacao], [Descricao] FROM [Situacao_Exame]"></asp:SqlDataSource>
                 </td>
                 
             </tr>
@@ -82,7 +104,12 @@
                 <td>
                     <asp:Label ID="lbPaciente" runat="server" Text=""></asp:Label>
                 </td>
-                
+                <td class="auto-style1">
+                    <asp:Label ID="lbDtSolicitacao" runat="server" Text="Data da Solicitação:"></asp:Label>
+                </td>
+                <td colspan="3">
+                    <asp:TextBox ID="txbDtSolicitacao" class="campoData1" runat="server"></asp:TextBox>
+                </td>
             </tr>
             <tr>
                 <td>
@@ -109,7 +136,12 @@
                         onselectedindexchanged="ddlGrupo_SelectedIndexChanged">
                     </asp:DropDownList>
                 </td>
-               
+               <td class="auto-style1">
+                    <asp:Label ID="lbDtAgendamento" runat="server" Text="Data do Agendamento :"></asp:Label>
+                </td>
+                <td colspan="3">
+                    <asp:TextBox ID="txbDtAgendamento" class="campoData2" runat="server"></asp:TextBox>
+                </td>
             </tr>
             <tr>
                 <td>
@@ -119,19 +151,25 @@
                     <asp:DropDownList ID="ddlExame" runat="server" Width="500px">
                     </asp:DropDownList>
                 </td>
+                  <td class="auto-style1">
+                    <asp:Label ID="lbFaltou" runat="server" Text="Paciente faltou no exame :"></asp:Label>
+                </td>
+                <td>
+                        <asp:CheckBox ID="chbFaltou" runat="server" />
+                </td>
                
             </tr>
            <tr>
             <td valign="top">
                 Observação:
             </td>
-            <td colspan="7">
+            <td >
                 <asp:TextBox ID="txbObs" Text='<%# Bind("Text") %>' runat="server" class="campoObs"
                     MaxLength="199" onkeyDown="checkTextAreaMaxLength(this,event,'199');" TabIndex="10"
                     Height="79px" TextMode="MultiLine" Width="500px"></asp:TextBox>
             </td>
-            <td valign="top">
-                <p>
+            <td valign="top" class="auto-style1">
+                <p >
                     <span id="remaining" class="remaining">199 caracteres restantes</span>
                 </p>
             </td>

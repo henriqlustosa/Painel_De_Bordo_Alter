@@ -11,7 +11,7 @@
     <tr>
     <td>
     
-        <asp:CreateUserWizard ID="CreateUserWizard1" runat="server" RequireEmail="False">
+        <asp:CreateUserWizard ID="CreateUserWizard1" runat="server" RequireEmail="False" >
             <FinishNavigationTemplate>
                 <asp:Button ID="FinishPreviousButton" runat="server" CausesValidation="False" CommandName="MovePrevious"
                     Text="Previous" />
@@ -31,7 +31,7 @@
                         <table border="0">
                             <tr>
                                 <td align="center" colspan="2">
-                                    Cadastre uma nova onta</td>
+                                    Cadastre uma nova Conta:</td>
                             </tr>
                             <tr>
                                 <td align="right">
@@ -93,7 +93,7 @@
                             <tr align="right">
                                 <td align="right" colspan="0">
                                     <asp:Button ID="StepNextButton" runat="server" CommandName="MoveNext" Text="Criar Usuário"
-                                        ValidationGroup="CreateUserWizard1" />
+                                       ValidationGroup="CreateUserWizard1" />
                                 </td>
                             </tr>
                         </table>
