@@ -16,12 +16,14 @@ public partial class Exames_cadExamest : System.Web.UI.Page
     {
         string strID = Request.QueryString["ID"];
 
+        
+
 
 
 
         if (!IsPostBack)
         {
-
+            txbDtSolicitacao.Text = FormatarData3(DateTime.Now.ToString());
             btnAtualizar.Enabled = false;
             CarregaPagina(strID);
             CarregaNome();
@@ -188,20 +190,54 @@ public partial class Exames_cadExamest : System.Web.UI.Page
     }
     protected void btnCadastrar_Click(object sender, EventArgs e)
     {
-     
+        string cod_exame = ddlExame.SelectedValue;
+        string solicitante = "";
+        string especialidade = "";
+        string rh = "";
+        // Validar se o exame já foi realizado
         try
         {
+            using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["SqlServices"].ToString()))
+            {
 
-            InserirExames();
-            AdicionarExame();
-            Response.Write("<script language=javascript>alert('Cadastrado com sucesso!');</script>");
-            this.ClientScript.RegisterClientScriptBlock(this.GetType(), "Fechar", "window.close()", true);
+                SqlCommand cmm = cnn.CreateCommand();
+                cmm.Connection = cnn;
+                cnn.Open();
+                cmm.CommandText = "SELECT top 1 solicitante,especialidade,rh FROM [Geral_Treina].[dbo].[Exames_Paciente] where rh = 1120991 and (impr = 1 or exameStatus in (2,4)) and cod_exame = " + cod_exame + "order by dataAgendamento desc " ;
 
+                SqlDataReader dr2 = cmm.ExecuteReader();
+                if (dr2.Read())
+                {
+                    solicitante = dr2.GetString(0);
+                    especialidade = dr2.GetString(1);
+                    rh = dr2.GetInt32(2).ToString();
+                    Response.Write("<script language='javascript'>alert('O paciente de RH: " + rh + "já realizou este exame. Solicitado por " + solicitante + " pela especialidade " + especialidade + "');</script>");
+
+                }
+                else
+                {
+                    try
+                    {
+
+                        InserirExames();
+                        AdicionarExame();
+                        Response.Write("<script language=javascript>alert('Cadastrado com sucesso!');</script>");
+                        this.ClientScript.RegisterClientScriptBlock(this.GetType(), "Fechar", "window.close()", true);
+
+                    }
+                    catch (SqlException e1)
+                    {
+                        Response.Write("<script language='javascript'>alert('Erro ao inserir registro " + e1.Message + "');</script>");
+                    }
+                }
+            }
         }
-        catch (SqlException e1)
+        catch (Exception ex)
         {
-            Response.Write("<script language='javascript'>alert('Erro ao inserir registro " + e1 + "');</script>");
+            string erro = ex.Message;
+
         }
+       
 
        
     }
@@ -219,8 +255,21 @@ public partial class Exames_cadExamest : System.Web.UI.Page
         string usuarioCadastro = Request.QueryString["user"];
         DateTime dataCadastro = DateTime.Now;
         string statusSituacao = ddlSituacao.SelectedValue;
-        string dataAgendamento =  FormatarData(txbDtAgendamento.Text);
-        string dataSolicitacao = FormatarData2(txbDtSolicitacao.Text);
+        string dataAgendamento = txbDtAgendamento.Text;
+        if (!dataAgendamento.Equals(""))
+            dataAgendamento = FormatarData(txbDtAgendamento.Text);
+        else
+            dataAgendamento = "1900-01-01 00:00:00.000";
+        string dataSolicitacao = txbDtSolicitacao.Text;
+        if (!dataSolicitacao.Equals(""))
+            dataSolicitacao = FormatarData2(txbDtSolicitacao.Text); 
+        else
+        {
+            Response.Write("<script language='javascript'>alert('Atenção! Data de Solicitação não preenchida');</script>");
+            return;
+        }
+
+        
         bool falta = chbFaltou.Checked.Equals(true) ? true : false;
 
         string sSql = "Insert Into Exames_Paciente (rh, solicitante ,cod_exame,impr, exameStatus, cod_fila, usuario, obs, especialidade, dataCadastro,dataUltimaAtualizacao,dataAgendamento,dataSolicitacao,falta) Values (@rh,@sol,@cod_exame,@impr,@status, @cod_fila,@usuarioCadastro,@obs, @especialidade,@dataCadastro,@dataUltimaAtualizacao,@dataAgendamento, @dataSolicitacao, @falta);";
@@ -391,8 +440,8 @@ public partial class Exames_cadExamest : System.Web.UI.Page
     }
     protected string FormatarData(string data)
     {
-
-        data = data.Substring(6, 4) + "-" + data.Substring(3, 2) + "-" + data.Substring(0, 2) + data.Substring(10, 6);
+   
+        data = data.Substring(6, 4) + "-" + data.Substring(3, 2) + "-" + data.Substring(0, 2) + data.Substring(10, 6) ;
         
 
         return data;
@@ -407,7 +456,17 @@ public partial class Exames_cadExamest : System.Web.UI.Page
         return data;
 
     }
-   
+    protected string FormatarData3(string data)
+    {
+
+        data = data.Substring(0, 10);
+
+
+        return data;
+
+    }
+    
+
     protected void LimparPágina()
     {
         txbDtAgendamento.Text = "";
@@ -514,7 +573,11 @@ public partial class Exames_cadExamest : System.Web.UI.Page
                     
         string dataAtualizacao=FormatarData(strDataAtualizacao);
         string dataSolicitacao =FormatarData2( txbDtSolicitacao.Text);
-        string dataAgendamento =  FormatarData(txbDtAgendamento.Text);
+        string dataAgendamento = txbDtAgendamento.Text;
+        if (!dataAgendamento.Equals(""))
+            dataAgendamento =  FormatarData(txbDtAgendamento.Text);
+        else
+            dataAgendamento = "1900-01-01 00:00:00.000";
         string falta = "0";
         string statusSituacao = ddlSituacao.SelectedValue;
         if (chbFaltou.Checked)
