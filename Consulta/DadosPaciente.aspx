@@ -358,47 +358,10 @@
                 <asp:CheckBox ID="chbRegul" runat="server" Text="Regulação" onclick="checagem(this.id)" />
             </td>
         </tr>
-        <tr>
-            <td colspan="6">
-                <asp:Button ID="Button3" runat="server" Text="Cadastrar Exames" OnClick="Button3_Click"
-                    OnClientClick="Confirm()" />
-            </td>
-        </tr>
+     
     </table>
     <table>
-        <tr>
-            <td>
-                Quantidade:
-            </td>
-            <td>
-                <asp:UpdatePanel ID="UpdatePanel3" runat="server">
-                    <ContentTemplate>
-                        <asp:TextBox ID="txbqtd" runat="server" TabIndex="4" Width="45"></asp:TextBox>
-                        <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="txbqtd"
-                            ErrorMessage="O campo [Quantidade] não foi preenchido." ValidationGroup="cadastro">*</asp:RequiredFieldValidator>
-                    </ContentTemplate>
-                </asp:UpdatePanel>
-            </td>
-            <td>
-                Situação:
-            </td>
-            <td>
-                <asp:UpdatePanel ID="UpdatePanel4" runat="server">
-                    <ContentTemplate>
-                        <asp:DropDownList ID="ddlSituacao" TabIndex="5" runat="server">
-                            <asp:ListItem Selected="True">Enc. UAC</asp:ListItem>
-                            <asp:ListItem>Recebido UAC</asp:ListItem>
-                            <asp:ListItem>Enc. GTA</asp:ListItem>
-                            <asp:ListItem>Recebido GTA</asp:ListItem>
-                            <asp:ListItem>Cancelada</asp:ListItem>
-                            <asp:ListItem>Ativo HSPM</asp:ListItem>
-                        </asp:DropDownList>
-                    </ContentTemplate>
-                </asp:UpdatePanel>
-            </td>
-            <td colspan="5">
-            </td>
-        </tr>
+      
         <tr>
             <td>
                 Marcada:

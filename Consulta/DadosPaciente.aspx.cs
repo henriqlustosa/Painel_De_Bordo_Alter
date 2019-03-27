@@ -214,7 +214,7 @@ public partial class Consulta_DadosPaciente : System.Web.UI.Page
 		string especialidade = ddlEspec.SelectedItem.ToString();
 		string espec = ddlEspec.SelectedValue.ToString();
 		string solicitante = ddlSol.SelectedItem.ToString();
-		string situacao = ddlSituacao.SelectedValue;
+		
 		string marcada = ddlMarcada.SelectedValue;
 		string consulta = txbConsulta.Text;
 		string dtConsulta = txbDtCon.Text;
@@ -249,7 +249,7 @@ public partial class Consulta_DadosPaciente : System.Web.UI.Page
 			_regulacao = "Não";
 		}
 		
-		_qtd = Convert.ToInt32(txbqtd.Text);
+		//_qtd = Convert.ToInt32(txbqtd.Text);
 
 
 		using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["SqlServices"].ToString()))
@@ -344,8 +344,8 @@ public partial class Consulta_DadosPaciente : System.Web.UI.Page
 			cmm.Parameters.Add("@solicitante", SqlDbType.VarChar).Value = solicitante;
 			cmm.Parameters.Add("@retorno", SqlDbType.VarChar).Value = _retorno;
 			cmm.Parameters.Add("@regulacao", SqlDbType.VarChar).Value = _regulacao;
-			cmm.Parameters.Add("@qtdExames", SqlDbType.Int).Value = _qtd;
-			cmm.Parameters.Add("@situacao", SqlDbType.VarChar).Value = situacao;
+			//cmm.Parameters.Add("@qtdExames", SqlDbType.Int).Value = _qtd;
+			//cmm.Parameters.Add("@situacao", SqlDbType.VarChar).Value = situacao;
 			cmm.Parameters.Add("@marcada", SqlDbType.VarChar).Value = marcada;
 			cmm.Parameters.Add("@consulta", SqlDbType.VarChar).Value = consulta.Trim();
 			cmm.Parameters.Add("@dtCon", SqlDbType.VarChar).Value = dtConsulta.Trim();
@@ -457,9 +457,9 @@ public partial class Consulta_DadosPaciente : System.Web.UI.Page
 		}
 		
 		
-		txbqtd.Text = GridView6.SelectedRow.Cells[7].Text;
+		
 
-		ddlSituacao.Text = GridView6.SelectedRow.Cells[8].Text;
+		
 		if (GridView6.SelectedRow.Cells[9].Text == "Sim")
 		{
 			ddlMarcada.SelectedValue = "Sim";
@@ -615,7 +615,7 @@ public partial class Consulta_DadosPaciente : System.Web.UI.Page
 		string dtSolicitacao = txbdtSol.Text;
 		string especialidade = ddlEspec.SelectedItem.ToString();
 		string solicitante = ddlSol.SelectedItem.ToString();
-		int _qdt = Convert.ToInt32(txbqtd.Text); //converter para Int32
+		
 		string _retorno = "";
 		string _regulacao = "";
 		DateTime dataMomento = DateTime.Now;
@@ -638,7 +638,7 @@ public partial class Consulta_DadosPaciente : System.Web.UI.Page
 			_regulacao = "Não";
 		}
 
-		string situacao = ddlSituacao.SelectedValue;
+		
 		string marcada = ddlMarcada.SelectedValue;
 		string consulta = txbConsulta.Text;
 		string dtConsulta = txbDtCon.Text;
@@ -666,10 +666,10 @@ public partial class Consulta_DadosPaciente : System.Web.UI.Page
 				cmm.Parameters.Add("@data", SqlDbType.Date).Value = dtSolicitacao;
 				cmm.Parameters.Add("@especialidade", SqlDbType.VarChar).Value = especialidade;
 				cmm.Parameters.Add("@solicitante", SqlDbType.VarChar).Value = solicitante;
-				cmm.Parameters.Add("@qtdExames", SqlDbType.Int).Value = _qdt;
+				//cmm.Parameters.Add("@qtdExames", SqlDbType.Int).Value = _qdt;
 				cmm.Parameters.Add("@retorno", SqlDbType.VarChar).Value = _retorno;
 				cmm.Parameters.Add("@regulacao", SqlDbType.VarChar).Value = _regulacao;
-				cmm.Parameters.Add("@situacao", SqlDbType.VarChar).Value = situacao;
+				//cmm.Parameters.Add("@situacao", SqlDbType.VarChar).Value = situacao;
 				cmm.Parameters.Add("@marcada", SqlDbType.VarChar).Value = marcada;
 				cmm.Parameters.Add("@consulta", SqlDbType.VarChar).Value = consulta.Trim();
 				cmm.Parameters.Add("@dtCon", SqlDbType.VarChar).Value = dtConsulta;
@@ -806,13 +806,13 @@ public partial class Consulta_DadosPaciente : System.Web.UI.Page
 		lbTel.Text = "";
 		ddlMarcada.SelectedIndex = 0;
 		ddlEspec.SelectedIndex = 0;
-		ddlSituacao.SelectedIndex = 0;
+		
 		ddlSol.SelectedIndex = 0;
 		txbDtCon.Text = "";
 		txbHoraCon.Text = "";
 		lbcod.Text = "";
 		txbdtSol.Text = "";
-		txbqtd.Text = "";
+		
 		txbConsulta.Text = "";
 		txbObs.Text = "";
 		txbTel1.Text = "";
@@ -1022,8 +1022,7 @@ public partial class Consulta_DadosPaciente : System.Web.UI.Page
 										ddlSol.SelectedValue = solicitante;
 										ddlEspec.SelectedValue = especialidade;
 										ddlMarcada.SelectedValue = "Sim";
-										ddlSituacao.SelectedValue = "Recebido GTA";
-										txbqtd.Text = "0";
+										
 
 
 

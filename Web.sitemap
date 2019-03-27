@@ -19,6 +19,10 @@
         <siteMapNode url="~/Relatorio/impressao.aspx" title="Mailing Consultas"  description="" />
         <siteMapNode url="~/Relatorio/impressaoExames.aspx" title="Mailing Exames"  description="" />
       </siteMapNode>
+      <siteMapNode title="Relatórios Exames">
+        <siteMapNode url="~/RelatorioExames/ConsultaExames.aspx" title="Consulta de Exames"  description="" />
+        
+      </siteMapNode>
      
 	 <siteMapNode title="Agendas">
         <siteMapNode url="~/Agenda/Agendas156.aspx" title="156 Agendas"  description="" />
