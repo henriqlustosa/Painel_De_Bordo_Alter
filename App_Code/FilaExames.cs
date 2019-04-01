@@ -56,7 +56,7 @@ public class FilaExames
 		string strConexao = @"Data Source=10.48.16.14;Initial Catalog=Geral_Treina;User Id=h010994;Password=soundgarden";
 		string strQuery = "SELECT cod_fila,cod_exame, solicitante,especialidade,obs,cod,dataSolicitacao,dataAgendamento,falta " +
 							"FROM Exames_Paciente " +
-							"WHERE exameStatus = 1 " + //status 1 - aguardando vaga
+							"WHERE exameStatus in (1,6)" + //status 1 - aguardando vaga
 							"AND cod_fila = " + cod_fila; 
 
 		using (SqlConnection conn = new SqlConnection(strConexao))

@@ -473,7 +473,7 @@
     <asp:GridView ID="GridView6" runat="server" AutoGenerateColumns="False" BackColor="White"
         BorderColor="#336666" BorderStyle="Double" BorderWidth="3px" CellPadding="4"
         DataSourceID="SqlDataSource1" GridLines="Vertical" Style="font-size: x-small"
-        Width="850px" OnSelectedIndexChanged="GridView6_SelectedIndexChanged" AutoGenerateSelectButton="True">
+        Width="850px" OnSelectedIndexChanged="GridView6_SelectedIndexChanged" AutoGenerateSelectButton="True" OnRowDataBound="GridView6_RowDataBound">
         <RowStyle BackColor="White" ForeColor="#333333" />
         <Columns>
             <asp:BoundField DataField="cod" HeaderText="cod" InsertVisible="False" ReadOnly="True"
@@ -509,7 +509,7 @@
         <HeaderStyle BackColor="#336666" Font-Bold="True" ForeColor="White" />
     </asp:GridView>
     <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:SqlServices %>"
-        SelectCommand="SELECT [cod],CONVERT(varchar,data, 103) as data, [especialidade], [solicitante], [retorno],[regulacao],[qtdExames], [situacao], [marcada], [consulta],CONVERT(varchar,dtCon,103) as dtCon,[hrCon], [telefone], [obs], [usuario] FROM [Geral_Treina].[dbo].[Fila] WHERE ([rh] = @rh) and marcada = 'Não' and situacao != 'Cancelada' ORDER BY [cod] desc">
+        SelectCommand="SELECT [rh], [cod],CONVERT(varchar,data, 103) as data, [especialidade], [solicitante], [retorno],[regulacao],[qtdExames], [situacao], [marcada], [consulta],CONVERT(varchar,dtCon,103) as dtCon,[hrCon], [telefone], [obs], [usuario] FROM [Geral_Treina].[dbo].[Fila] WHERE ([rh] = @rh) and marcada = 'Não' and situacao != 'Cancelada' ORDER BY [cod] desc">
         <SelectParameters>
             <asp:ControlParameter ControlID="txbRh" Name="rh" PropertyName="Text" Type="String" />
         </SelectParameters>

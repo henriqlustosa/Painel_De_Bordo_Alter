@@ -344,8 +344,8 @@ public partial class Consulta_DadosPaciente : System.Web.UI.Page
 			cmm.Parameters.Add("@solicitante", SqlDbType.VarChar).Value = solicitante;
 			cmm.Parameters.Add("@retorno", SqlDbType.VarChar).Value = _retorno;
 			cmm.Parameters.Add("@regulacao", SqlDbType.VarChar).Value = _regulacao;
-			//cmm.Parameters.Add("@qtdExames", SqlDbType.Int).Value = _qtd;
-			//cmm.Parameters.Add("@situacao", SqlDbType.VarChar).Value = situacao;
+			cmm.Parameters.Add("@qtdExames", SqlDbType.Int).Value = 0;
+			cmm.Parameters.Add("@situacao", SqlDbType.VarChar).Value =  "Enc.GTA";
 			cmm.Parameters.Add("@marcada", SqlDbType.VarChar).Value = marcada;
 			cmm.Parameters.Add("@consulta", SqlDbType.VarChar).Value = consulta.Trim();
 			cmm.Parameters.Add("@dtCon", SqlDbType.VarChar).Value = dtConsulta.Trim();
@@ -666,10 +666,10 @@ public partial class Consulta_DadosPaciente : System.Web.UI.Page
 				cmm.Parameters.Add("@data", SqlDbType.Date).Value = dtSolicitacao;
 				cmm.Parameters.Add("@especialidade", SqlDbType.VarChar).Value = especialidade;
 				cmm.Parameters.Add("@solicitante", SqlDbType.VarChar).Value = solicitante;
-				//cmm.Parameters.Add("@qtdExames", SqlDbType.Int).Value = _qdt;
+				cmm.Parameters.Add("@qtdExames", SqlDbType.Int).Value = 0;
 				cmm.Parameters.Add("@retorno", SqlDbType.VarChar).Value = _retorno;
 				cmm.Parameters.Add("@regulacao", SqlDbType.VarChar).Value = _regulacao;
-				//cmm.Parameters.Add("@situacao", SqlDbType.VarChar).Value = situacao;
+				cmm.Parameters.Add("@situacao", SqlDbType.VarChar).Value = "Enc.GTA";
 				cmm.Parameters.Add("@marcada", SqlDbType.VarChar).Value = marcada;
 				cmm.Parameters.Add("@consulta", SqlDbType.VarChar).Value = consulta.Trim();
 				cmm.Parameters.Add("@dtCon", SqlDbType.VarChar).Value = dtConsulta;
@@ -828,11 +828,16 @@ public partial class Consulta_DadosPaciente : System.Web.UI.Page
 		Button btn = (Button)sender;
 		GridViewRow row = (GridViewRow)btn.NamingContainer;
 		// assuming you store the ID in a Hiddenield:
+    
 		string strID= row.Cells[1].Text;
 		string usuario = lbUser.Text;
+       
+
+        string rh =txbRh.Text;
+        
 
 
-		ScriptManager.RegisterStartupScript(this, typeof(string), "OPEN_WINDOW", "var Mleft = (screen.width/2)-(760/2);var Mtop = (screen.height/2)-(400/2);window.open( '../Exames/cadExames.aspx?ID=" + strID + "&user=" + usuario +"', null, 'height=400,width=780,status=yes,toolbar=no,scrollbars=yes,menubar=no,location=no,top=\'+Mtop+\', left=\'+Mleft+\'' );", true);
+        ScriptManager.RegisterStartupScript(this, typeof(string), "OPEN_WINDOW", "var Mleft = (screen.width/2)-(760/2);var Mtop = (screen.height/2)-(400/2);window.open( '../Exames/cadExames.aspx?ID=" + strID + "&user=" + usuario + "&rh=" + rh +"' , null, 'height=400,width=780,status=yes,toolbar=no,scrollbars=yes,menubar=no,location=no,top=\'+Mtop+\', left=\'+Mleft+\'' );", true);
 	  
 
 	}
@@ -1061,4 +1066,10 @@ public partial class Consulta_DadosPaciente : System.Web.UI.Page
 			Consulta(sender);
 		}
 	}
+    protected void GridView6_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+       
+        e.Row.Cells[1].Visible = false;
+    
+    }
 }

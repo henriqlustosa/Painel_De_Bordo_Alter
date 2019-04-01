@@ -85,6 +85,13 @@
                 }
             });
         });
+        function FecharJanela() {
+           
+          window.close();
+        }
+        function Continuar() {
+         
+        }
         function checkTextAreaMaxLength(textBox, e, length) {
 
             var mLen = textBox["MaxLength"];
@@ -197,7 +204,7 @@
                     <td>Exame:
                     </td>
                     <td>
-                        <asp:DropDownList ID="ddlExame" runat="server" Width="500px">
+                        <asp:DropDownList ID="ddlExame" runat="server" AutoPostBack="True" Width="500px" OnSelectedIndexChanged="ddlExame_SelectedIndexChanged">
                         </asp:DropDownList>
                     </td>
                     <td class="auto-style1">

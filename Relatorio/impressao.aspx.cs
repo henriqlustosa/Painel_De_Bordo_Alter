@@ -89,32 +89,34 @@ public partial class Relatorio_impressao : System.Web.UI.Page
 				string tel2 = "";
 				string tel3 = "";
 				string tel4 = "";
-				//string datateste = pRow["dtCon"].ToString();
-				if (pRow["dtCon"].ToString().Equals(""))
-				{
-					continue;
-				}
-				else
-				{
-					string marcada = pRow["marcada"].ToString();
-					string rh = pRow["rh"].ToString();
-					string nome = getNome(rh).Replace("'", " ").Replace("\"", " ");
-					string espec = pRow["especialidade"].ToString();
-					string data1 = pRow["dtCon"].ToString();
-					string[] data2 = data1.Split('/');
-					string data3 = data2[2] + "-" + data2[1] + "-" + data2[0];
-					string hora = pRow["hrCon"].ToString() + ":00";// acrescentado os segundos na hora da consulta
-					string sol = pRow["solicitante"].ToString().Replace("'", " ").Replace("\"", " ");
-					string datConsult = data3 + " " + hora;
+                //string datateste = pRow["dtCon"].ToString();
+                if (pRow["dtCon"].ToString().Equals(""))
+                {
+                    continue;
+                }
+                else
+                {
+                    string marcada = pRow["marcada"].ToString();
+                    string rh = pRow["rh"].ToString();
+                    string nome = getNome(rh).Replace("'", " ").Replace("\"", " ");
+                    string espec = pRow["especialidade"].ToString();
+                    string data1 = pRow["dtCon"].ToString();
+                    string[] data2 = data1.Split('/');
+                    string data3 = data2[2] + "-" + data2[1] + "-" + data2[0];
+                    string hora = pRow["hrCon"].ToString() + ":00";// acrescentado os segundos na hora da consulta
+                    string sol = pRow["solicitante"].ToString().Replace("'", " ").Replace("\"", " ");
+                    string datConsult = data3 + " " + hora;
 
-					// se o campo da data não estiver preenchido
-					if (datConsult.Equals(""))
-						datConsult = "00-00-0000 00:00:00";// acrescentado os segundos na hora da consulta
+                    // se o campo da data não estiver preenchido
+                    if (datConsult.Equals(""))
+                        datConsult = "00-00-0000 00:00:00";// acrescentado os segundos na hora da consulta
 
-					string consulta = pRow["consulta"].ToString();
-					// se o campo do código da consulta não estiver preenchido
-					if (consulta.Equals(""))
-						consulta = "sem preenchimento";
+                    string consulta = pRow["consulta"].ToString();
+                    // se o campo do código da consulta não estiver preenchido
+                    if (consulta.Equals(""))
+                        consulta = "sem preenchimento";
+                    AtualizacaoTabelaExames(consulta);
+                       
 
 					string tel = pRow["telefone"].ToString();
 					// se o campo do telefone não estiver preenchido
@@ -302,7 +304,34 @@ public partial class Relatorio_impressao : System.Web.UI.Page
 			}
 		}
 	}
-	public void exportarToTxt()
+    static void AtualizacaoTabelaExames(string codigo)
+    {
+
+        string strConexao = @"Data Source=hspmins4;Initial Catalog=Geral_Treina;User Id=h010994;Password=soundgarden";
+        string strQuery = "";
+
+
+        strQuery = "UPDATE [Geral_Treina].[dbo].[Exames_Paciente]" +
+       " SET [impr] = 'true'" +
+       " where [cod_fila] = " + codigo;
+
+        using (SqlConnection conn = new SqlConnection(strConexao))
+        {
+            try
+            {
+
+                SqlCommand cmd = new SqlCommand(strQuery, conn);
+                conn.Open();
+                int i = cmd.ExecuteNonQuery();
+
+            }
+            catch (Exception ex)
+            {
+                string erro = ex.Message;
+            }
+        }
+    }
+    public void exportarToTxt()
 	{
 		DateTime dt = DateTime.Now.AddDays(1);//dia atual + 1 = dia seguinte;
 		
