@@ -1,0 +1,135 @@
+* {
+	font-family: Helvetica, Arial;
+}
+
+body {
+	font-family: sans-serif;
+}
+
+.form-cadastro {
+	width: 80%;
+	max-width: 500px;
+	margin: auto;
+    zoom:110%;
+}
+
+h1 {
+	text-align: center;
+}	
+
+.container-inputs {
+	display: flex;
+	flex-wrap: wrap;						/* Quebra a linha assim que um dos flex itens não puder mais ser compactado. */
+	justify-content: space-around;
+}
+
+.container label input {
+	display: inline-block;	
+}
+
+	/* LABEL'S */
+
+.label {
+	padding: 31px 0px 0px 0px;
+	text-align: left;
+}
+
+	/* INPUTS */
+
+.input-rh {
+	height: 20px;
+	width: 200px;
+	text-align: justify;
+	margin-top: 2px;
+}
+
+.input-situacao {
+	height: 27px;
+	width: 200px;
+	text-align: justify;
+	margin-top: 1.8px;
+}
+
+.input-dsi {
+	height: 20px;
+	width: 200px;
+	text-align: justify;
+	margin-top: 2px;
+}
+
+
+.input-dsf {
+	height: 20px;
+	width: 200px;
+	text-align: justify;
+	margin-top: 2px;
+}
+
+.input-dai {
+	height: 20px;
+	width: 200px;
+	text-align: justify;
+	margin-top: 2px;
+}
+
+.input-daf {
+	height: 20px;
+	width: 200px;
+	text-align: justify;
+	margin-top: 2px;
+}
+.input-solicitante {
+	height: 27px;
+	width: 200px;
+	text-align: justify;
+	margin-top: 1.8px;
+}
+
+.input-especialidade {
+	height: 27px;
+	width: 200px;
+	text-align: justify;
+	margin-top: 1.8px;
+}
+
+.input-grupoexames {
+	height: 27px;
+	width: 200px;
+	text-align: justify;
+	margin-top: 1.8px;
+}
+
+.input-exames {
+	height: 27px;
+	width: 200px;
+	text-align: justify;
+	margin-top: 1.8px;
+}
+
+	/* CHECKBOX */
+
+.label-check {
+    padding: 31px 0px 0px 0px;
+    display: inline-block;
+    vertical-align: middle;
+}
+.input-check {
+   
+	display: inline-block;
+   	vertical-align: middle;
+ }
+
+	/* BOTÃO */
+
+.btn  {
+	margin: 0 auto;
+	width: 90px;
+}
+
+.btn-cons {
+	cursor: pointer;
+	width: 80px;
+	padding: 8px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
