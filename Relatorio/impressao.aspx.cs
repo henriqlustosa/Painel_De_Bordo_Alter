@@ -268,6 +268,9 @@ public partial class Relatorio_impressao : System.Web.UI.Page
 		{
 			int codigo_sozinho2 = Convert.ToInt32(pRow2["codigo"].ToString());
 			mudarDeTabela(codigo_sozinho2, codigo_log);
+			AtualizarLogMailling(codigo_sozinho2);
+
+
 			deletarTabelaFila(codigo_sozinho2);
 		}
 	}
@@ -461,7 +464,7 @@ public partial class Relatorio_impressao : System.Web.UI.Page
 		string strQuery = "";
 
 		strQuery = "SELECT [cod],[rh],[data],[especialidade],[solicitante],[qtdExames],[retorno],[regulacao]" +
-	  ",[situacao],[marcada],[consulta],[dtCon],[hrCon],[telefone],[obs],[usuario] from fila" +
+	  ",[situacao],[marcada],[consulta],[dtCon],[hrCon],[telefone],[obs],[usuario],[usuarioCadastro] , [dataCadastro] from fila" +
 	  " where cod = " + codigo_fila;
 
 		using (SqlConnection conn = new SqlConnection(strConexao))
@@ -483,6 +486,9 @@ public partial class Relatorio_impressao : System.Web.UI.Page
 			string obs = "";
 			string usuario = "";
 			string date = "";
+			string usuarioCadastro = "";
+			string dataCadastro = "";
+
 			try
 			{
 				SqlCommand cmd = new SqlCommand(strQuery, conn);
@@ -505,12 +511,14 @@ public partial class Relatorio_impressao : System.Web.UI.Page
 					qtdExames = dr.GetInt32(5);
 					retorno = dr.GetString(6);
 					regulacao = dr.GetString(7);
-					situacao = dr.GetString(8);
+					situacao = "Mailling";
 					marcada = dr.GetString(9);
 					consulta = dr.GetString(10);
 					dtCon = dr.GetString(11);
 					hrCon = dr.GetString(12);
 					telefone = dr.GetString(13);
+					usuarioCadastro = dr.GetString(16);
+					dataCadastro = dr.GetDateTime(17).ToString();
 
 					// se o campo do telefone não estiver preenchido
 					if (telefone.Equals("") || telefone.Equals("&nbsp;"))
@@ -539,10 +547,10 @@ public partial class Relatorio_impressao : System.Web.UI.Page
 				string strQuery2 = "";
 
 				strQuery2 = "INSERT INTO Ret_marcadas_impr (cod_impressao,cod_fila, rh, data, especialidade, solicitante, qtdExames " +
-				",retorno, regulacao, situacao,marcada,consulta,dtCon,hrCon,telefone,obs,usuario) VALUES (" + codigo_log + "," + cod_fila + ","
+				",retorno, regulacao, situacao,marcada,consulta,dtCon,hrCon,telefone,obs,usuario,usuarioCadastro, dataCadastro) VALUES (" + codigo_log + "," + cod_fila + ","
 				+ rh + ",'" + date + "','" + especialidade + "','" + solicitante + "'," + qtdExames + ",'" + retorno + "','" + regulacao + "','"
 				+ situacao + "','" + marcada + "','" + consulta + "','" + dtCon + "','" + hrCon + "','" + telefone + "','" +
-				 obs + "','" + usuario + "'" + " )";
+				 obs + "','" + usuario + "','" + usuarioCadastro + "','" + dataCadastro + "' )";
 
 				SqlCommand cmd2 = new SqlCommand(strQuery2, conn);
 				conn.Open();
@@ -553,10 +561,7 @@ public partial class Relatorio_impressao : System.Web.UI.Page
 			{
 				string erro = e.Message;
 			}
-			catch (Exception ex)
-			{
-				string erro = ex.Message;
-			}
+			
 		}//using
 
 	}//fim do metodo
@@ -606,5 +611,45 @@ public partial class Relatorio_impressao : System.Web.UI.Page
 	{
 		gridCarregaGridView1();
 		exportarToTxt();
+	}
+	public void AtualizarLogMailling(int codigo)
+	{
+		
+
+		string usuario = User.Identity.Name; 
+		DateTime data = DateTime.Now;
+
+		using (SqlConnection cnn2 = new SqlConnection(ConfigurationManager.ConnectionStrings["SqlServices"].ToString()))
+		{
+
+			using (SqlConnection cnn5 = new SqlConnection(ConfigurationManager.ConnectionStrings["SqlServices"].ToString()))
+			{
+				SqlCommand cmm5 = cnn5.CreateCommand();
+				cmm5.CommandText = "INSERT INTO [Geral_Treina].[dbo].[Log_Fila] (statusFila, horaAtualizacaoStatus, usuario, cod_fila) VALUES (@statusFila,@horaAtualizacaoStatus,@usuario,@cod_fila)";
+				cmm5.Parameters.Add("@statusFila", SqlDbType.VarChar).Value = 3;
+				cmm5.Parameters.Add("@horaAtualizacaoStatus", SqlDbType.DateTime).Value = data;
+				cmm5.Parameters.Add("@usuario", SqlDbType.VarChar).Value = usuario;
+				cmm5.Parameters.Add("@cod_fila", SqlDbType.Int).Value = codigo;
+
+				try
+				{
+					cnn5.Open();
+					cmm5.ExecuteNonQuery();
+				}
+				catch (Exception ex)
+				{
+					string err = ex.Message;
+
+				}
+
+			}
+
+
+
+
+
+
+		}
+
 	}
 }
