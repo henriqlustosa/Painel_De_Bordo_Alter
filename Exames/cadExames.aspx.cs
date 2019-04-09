@@ -240,19 +240,6 @@ public partial class Exames_cadExamest : System.Web.UI.Page
             Response.Write("<script language='javascript'>alert('Erro ao inserir registro " + e1.Message + "');</script>");
         }
     }
-
-
-
-
-
-
-
-
-  
-
-
-
-
     private void InserirExames()
     {
         int rh = Convert.ToInt32(lbRh.Text);
@@ -283,7 +270,7 @@ public partial class Exames_cadExamest : System.Web.UI.Page
 
         bool falta = chbFaltou.Checked.Equals(true) ? true : false;
 
-        string sSql = "Insert Into Exames_Paciente (rh, solicitante ,cod_exame,impr, exameStatus, cod_fila, usuario, obs, especialidade, dataCadastro,dataUltimaAtualizacao,dataAgendamento,dataSolicitacao,falta) Values (@rh,@sol,@cod_exame,@impr,@status, @cod_fila,@usuarioCadastro,@obs, @especialidade,@dataCadastro,@dataUltimaAtualizacao,@dataAgendamento, @dataSolicitacao, @falta);";
+        string sSql = "Insert Into Exames_Paciente (rh, solicitante ,cod_exame,impr, exameStatus, cod_fila, usuario, obs, especialidade, dataCadastro,dataUltimaAtualizacao,dataAgendamento,dataSolicitacao,falta,usuarioCadastro) Values (@rh,@sol,@cod_exame,@impr,@status, @cod_fila,@usuarioCadastro,@obs, @especialidade,@dataCadastro,@dataUltimaAtualizacao,@dataAgendamento, @dataSolicitacao, @falta,@usuarioCadastro);";
         using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["SqlServices"].ToString()))
         {
             SqlCommand cmm = new SqlCommand();

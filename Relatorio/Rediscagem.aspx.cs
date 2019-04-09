@@ -41,7 +41,7 @@ public partial class Relatorio_Rediscagem : System.Web.UI.Page
                 }
                 catch (HttpException ex)
                 {
-                    Response.Write("<script language='javascript'>alert('Erro ao carregar o arquivo.');</script>");
+                    Response.Write("<script language='javascript'>alert('Erro ao carregar o arquivo: "+ ex.Message +  "');</script>");
                 }
             }
             else

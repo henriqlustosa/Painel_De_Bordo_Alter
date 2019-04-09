@@ -828,16 +828,16 @@ public partial class Consulta_DadosPaciente : System.Web.UI.Page
 		Button btn = (Button)sender;
 		GridViewRow row = (GridViewRow)btn.NamingContainer;
 		// assuming you store the ID in a Hiddenield:
-    
+	
 		string strID= row.Cells[1].Text;
 		string usuario = lbUser.Text;
-       
+	   
 
-        string rh =txbRh.Text;
-        
+		string rh =txbRh.Text;
+		
 
 
-        ScriptManager.RegisterStartupScript(this, typeof(string), "OPEN_WINDOW", "var Mleft = (screen.width/2)-(760/2);var Mtop = (screen.height/2)-(400/2);window.open( '../Exames/cadExames.aspx?ID=" + strID + "&user=" + usuario + "&rh=" + rh +"' , null, 'height=400,width=780,status=yes,toolbar=no,scrollbars=yes,menubar=no,location=no,top=\'+Mtop+\', left=\'+Mleft+\'' );", true);
+		ScriptManager.RegisterStartupScript(this, typeof(string), "OPEN_WINDOW", "var Mleft = (screen.width/2)-(760/2);var Mtop = (screen.height/2)-(400/2);window.open( '../Exames/cadExames.aspx?ID=" + strID + "&user=" + usuario + "&rh=" + rh +"' , null, 'height=400,width=780,status=yes,toolbar=no,scrollbars=yes,menubar=no,location=no,top=\'+Mtop+\', left=\'+Mleft+\'' );", true);
 	  
 
 	}
@@ -882,7 +882,6 @@ public partial class Consulta_DadosPaciente : System.Web.UI.Page
 				cmm2.Parameters.Add("@sus", SqlDbType.VarChar).Value = _sus;
 				try
 				{
-					//cnn.Open();
 					cmm2.ExecuteNonQuery();
 					Response.Write("<script language=javascript>alert('Cadastrado com sucesso!');</script>");
 				}
@@ -890,7 +889,7 @@ public partial class Consulta_DadosPaciente : System.Web.UI.Page
 				{
 					ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('ERRO:  " + ex + "');", true); //mensagem de alerta
 				}
-				Response.Write("<script language=javascript>alert('Cadastrado com sucesso!');</script>");
+				
 			}
 		}
 	}
@@ -1066,10 +1065,10 @@ public partial class Consulta_DadosPaciente : System.Web.UI.Page
 			Consulta(sender);
 		}
 	}
-    protected void GridView6_RowDataBound(object sender, GridViewRowEventArgs e)
-    {
-       
-        e.Row.Cells[1].Visible = false;
-    
-    }
+	protected void GridView6_RowDataBound(object sender, GridViewRowEventArgs e)
+	{
+	   
+		e.Row.Cells[1].Visible = false;
+	
+	}
 }
