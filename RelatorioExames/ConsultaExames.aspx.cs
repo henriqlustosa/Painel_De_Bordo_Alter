@@ -213,9 +213,9 @@ public partial class RelatorioExames_ConsultaExames : System.Web.UI.Page
             builder.Append(" and especialidade = '" + strEspecial + "'");
 
         if (!strExames.Equals("Todos"))
-            builder.Append(" and cod_exame = " + strExames);
+            builder.Append(" and p.cod_exame = " + strExames);
         builder.Append(" and falta =  '" + strFalta +"'");
-        if (!strGrupo.Equals("Todos") && strExames.Equals("Todos"))
+        if (!strGrupo.Equals("Todos"))
             builder.Append("  and Cod_Grupo_Exame = " + strGrupo);
         builder.Append(" and falta =  '" + strFalta + "'");
         if(!strSituacao.Equals("Todos"))
