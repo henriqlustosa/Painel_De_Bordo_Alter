@@ -929,7 +929,7 @@ protected void Button_click_event(Object sender, EventArgs e)
 
 
 
-    ScriptManager.RegisterStartupScript(this, typeof(string), "OPEN_WINDOW", "var Mleft = (screen.width/2)-(760/2);var Mtop = (screen.height/2)-(400/2);window.open( '../Exames/cadExames.aspx?ID=" + strID + "&user=" + usuario + "&rh=" + rh + "' , null, 'height=400,width=780,status=yes,toolbar=no,scrollbars=yes,menubar=no,location=no,top=\'+Mtop+\', left=\'+Mleft+\'' );", true);
+    ScriptManager.RegisterStartupScript(this, typeof(string), "OPEN_WINDOW", "var Mleft = (screen.width/2)-(760/2);var Mtop = (screen.height/2)-(400/2);window.open( '../Exames/cadExames.aspx?ID=" + strID + "&user=" + usuario + "&rh=" + rh + "' , null, 'height=700,width=1100,status=yes,toolbar=no,scrollbars=yes,menubar=no,location=no,top=\'+Mtop+\', left=\'+Mleft+\'' );", true);
 
 
 }

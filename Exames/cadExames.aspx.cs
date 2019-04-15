@@ -373,15 +373,25 @@ public partial class Exames_cadExamest : System.Web.UI.Page
 
     protected void btnAtualizar_Click(object sender, EventArgs e)
     {
+        string dataAgendamento = txbDtAgendamento.Text;
+        string dataSolicitacao = txbDtSolicitacao.Text;
+
+        DateTime dateAgend = new DateTime(Convert.ToInt32(dataAgendamento.Substring(6, 4)),Convert.ToInt32(dataAgendamento.Substring(3, 2)), Convert.ToInt32(dataAgendamento.Substring(0, 2)) );
+        DateTime dateSolic= new DateTime(Convert.ToInt32(dataSolicitacao.Substring(6, 4)), Convert.ToInt32(dataSolicitacao.Substring(3, 2)), Convert.ToInt32(dataSolicitacao.Substring(0, 2)) );
         if (txbDtAgendamento.Text != "" && ddlSituacao.SelectedItem.Value == "1")
         {
             Response.Write("<script language='javascript'>alert('Atenção: Data de Agendamento marcado, portanto o status do exame não pode ser como encaminhado.');</script>");
-            LimparPágina();
+          
         }
         else if (txbDtAgendamento.Text == "" && ( ddlSituacao.SelectedItem.Value == "2" || ddlSituacao.SelectedItem.Value == "4"))
         {
             Response.Write("<script language='javascript'>alert('Atenção: Situação Agendada ou Reagendada,portanto a data de Agendamento precisa ter um valor.');</script>");
-            LimparPágina();
+        
+        }
+        else if (dateAgend < dateSolic)
+        {
+            Response.Write("<script language='javascript'>alert('Atenção: A Data de Agendamento é menor que Data de Atualização');</script>");
+            
         }
         else
         {
@@ -402,6 +412,7 @@ public partial class Exames_cadExamest : System.Web.UI.Page
             this.ClientScript.RegisterClientScriptBlock(this.GetType(), "Fechar", "window.close()", true);
 
         }
+        LimparPagina();
 
     }
 
@@ -474,16 +485,17 @@ public partial class Exames_cadExamest : System.Web.UI.Page
     }
 
 
-    protected void LimparPágina()
+    protected void LimparPagina()
     {
         txbDtAgendamento.Text = "";
         txbDtSolicitacao.Text = "";
         txbObs.Text = "";
         ddlSituacao.SelectedIndex = 0;
-        ddlExame.SelectedIndex = 0;
-        ddlGrupo.SelectedIndex = 0;
+        CarregaGrupo();
+        CarregaExames();
         chbFaltou.Checked = false;
-
+        grvExamesSolicitados.SelectedIndex = -1;
+        grvExamesMarcados.SelectedIndex = -1;
     }
 
     protected void LogExamesPacientes()
