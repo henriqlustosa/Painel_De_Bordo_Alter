@@ -12,10 +12,11 @@ public partial class Consulta_DadosPaciente : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+        
         if (!IsPostBack)
         {
             lbUser.Text = User.Identity.Name;
-
+            
             Button1.Enabled = false;
             Button2.Enabled = false;
 
@@ -64,10 +65,15 @@ public partial class Consulta_DadosPaciente : System.Web.UI.Page
         ddlEspec.DataValueField = "ia9descr";
         ddlEspec.DataBind();
     }
+    protected void GridView1_Init(object sender, EventArgs e)
+    {
+        Response.CacheControl = "no-cache";
+    }
 
     protected void btPesq_Click(object sender, EventArgs e)
     {
         GridView6.SelectedIndex = -1;
+        GridView6.DataBind();
         string dtHoje = DateTime.Now.Date.Day.ToString().PadLeft(2, '0') + "/" + DateTime.Now.Date.Month.ToString().PadLeft(2, '0') + "/" + DateTime.Now.Date.Year.ToString().PadLeft(2, '0');
         txbdtSol.Text = dtHoje;
 
@@ -832,7 +838,7 @@ public partial class Consulta_DadosPaciente : System.Web.UI.Page
                         }
                         catch (Exception ex)
                         {
-                            string err = ex.Message;
+                           string err = ex.Message;
 
                         }
                     }

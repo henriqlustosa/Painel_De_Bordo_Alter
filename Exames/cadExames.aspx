@@ -85,6 +85,7 @@
                 }
             });
         });
+        function closePopupWindow() { window.opener.location.href = "../Consulta/DadosPaciente.aspx";;window.close();}
         function FecharJanela() {
            
           window.close();

@@ -232,14 +232,18 @@ public partial class Exames_cadExamest : System.Web.UI.Page
             InserirExames();
             AdicionarExame();
             Response.Write("<script language=javascript>alert('Cadastrado com sucesso!');</script>");
-            this.ClientScript.RegisterClientScriptBlock(this.GetType(), "Fechar", "window.close()", true);
+       
 
+            this.ClientScript.RegisterClientScriptBlock(this.GetType(), "Fechar", "closePopupWindow()", true);
+         
         }
         catch (SqlException e1)
         {
             Response.Write("<script language='javascript'>alert('Erro ao inserir registro " + e1.Message + "');</script>");
         }
     }
+
+  
     private void InserirExames()
     {
         int rh = Convert.ToInt32(lbRh.Text);

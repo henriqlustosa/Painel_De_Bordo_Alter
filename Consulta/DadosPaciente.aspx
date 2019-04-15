@@ -473,7 +473,7 @@
     <asp:GridView ID="GridView6" runat="server" AutoGenerateColumns="False" BackColor="White"
         BorderColor="#336666" BorderStyle="Double" BorderWidth="3px" CellPadding="4"
         DataSourceID="SqlDataSource1" GridLines="Vertical" Style="font-size: x-small"
-        Width="850px" OnSelectedIndexChanged="GridView6_SelectedIndexChanged" AutoGenerateSelectButton="True" OnRowDataBound="GridView6_RowDataBound">
+        Width="850px" OnSelectedIndexChanged="GridView6_SelectedIndexChanged" AutoGenerateSelectButton="True" OnRowDataBound="GridView6_RowDataBound" OnInit="GridView1_Init">
         <RowStyle BackColor="White" ForeColor="#333333" />
         <Columns>
             <asp:BoundField DataField="cod" HeaderText="cod" InsertVisible="False" ReadOnly="True"
