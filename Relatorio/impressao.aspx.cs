@@ -518,7 +518,7 @@ public partial class Relatorio_impressao : System.Web.UI.Page
 					hrCon = dr.GetString(12);
 					telefone = dr.GetString(13);
 					usuarioCadastro = dr.GetString(16);
-					dataCadastro = dr.GetDateTime(17).ToString();
+					dataCadastro = FormatarData(dr.GetDateTime(17).ToString());
 
 					// se o campo do telefone não estiver preenchido
 					if (telefone.Equals("") || telefone.Equals("&nbsp;"))
@@ -565,8 +565,16 @@ public partial class Relatorio_impressao : System.Web.UI.Page
 		}//using
 
 	}//fim do metodo
+    protected string FormatarData(string data)
+    {
 
-	public void deletarTabelaFila(int codigo_fila)
+        data = data.Substring(6, 4) + "-" + data.Substring(3, 2) + "-" + data.Substring(0, 2) + data.Substring(10, 9);
+
+
+        return data;
+
+    }
+    public void deletarTabelaFila(int codigo_fila)
 	{
 
 		string strConexao = @"Data Source=hspmins4;Initial Catalog=Geral_Treina;User Id=h010994;Password=soundgarden";
