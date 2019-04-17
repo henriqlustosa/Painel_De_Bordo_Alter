@@ -99,9 +99,9 @@ public partial class Exames_CadExm : System.Web.UI.Page
     public static DataTable gridCarregaExames(string _rh)
     {
         string strConexao = @"Data Source=10.48.16.14;Initial Catalog=Geral_Treina;User Id=h010994;Password=soundgarden";
-        string strQuery = "SELECT cod,cod_exame, solicitante " +
+        string strQuery = "SELECT cod_fila,cod_exame, solicitante,especialidade,obs,cod,dataSolicitacao,dataAgendamento,falta " +
                             "FROM Exames_Paciente " +
-                            "WHERE status = 4 " + //status 4 - aquardando vaga
+                            "WHERE exameStatus in (1,6)" + //status 1 - aguardando vaga
                             "AND rh = " + _rh;
 
         using (SqlConnection conn = new SqlConnection(strConexao))
@@ -115,19 +115,35 @@ public partial class Exames_CadExm : System.Web.UI.Page
                 conn.Open();
                 dr1 = cmd.ExecuteReader(CommandBehavior.CloseConnection);
 
-                dt.Columns.Add("Fila", System.Type.GetType("System.String"));
+                dt.Columns.Add("Cod_Fila", System.Type.GetType("System.String"));
                 dt.Columns.Add("Codigo", System.Type.GetType("System.String"));
-                dt.Columns.Add("Descrição", System.Type.GetType("System.String"));
+                //dt.Columns.Add("Cod_Exame", System.Type.GetType("System.String"));
                 dt.Columns.Add("Solicitante", System.Type.GetType("System.String"));
+                dt.Columns.Add("Especialidade", System.Type.GetType("System.String"));
+                dt.Columns.Add("Grupo de Exames", System.Type.GetType("System.String"));
+                dt.Columns.Add("Exames", System.Type.GetType("System.String"));
+                dt.Columns.Add("Observacao", System.Type.GetType("System.String"));
+                dt.Columns.Add("Data Solicitacao", System.Type.GetType("System.String"));
+                dt.Columns.Add("Data Agendamento", System.Type.GetType("System.String"));
+                dt.Columns.Add("Falta no Exame", System.Type.GetType("System.String"));
+
 
                 while (dr1.Read())
                 {
-                    string fila = dr1.GetInt32(0).ToString();
-                    string codigo = dr1.GetInt32(1).ToString();
-                    string descricao = getExames(dr1.GetInt32(1));
-                    string solic = dr1.GetString(2);
+                    string codigo_fila = dr1.GetInt32(0).ToString();
+                    //string codigo_exame = dr1.GetInt32(1).ToString();
+                    string solicitante = dr1.GetString(2);
+                    string especialidade = dr1.GetString(3);
+                    string grupo_exames = getGrupoExame(dr1.GetInt32(1));
+                    string exames = getExame(dr1.GetInt32(1));
+                    string obs = dr1.GetString(4);
+                    string codigo = dr1.GetInt32(5).ToString();
+                    string dataSolicitacao = String.Format("{0:dd/MM/yyyy}", dr1.GetDateTime(6));
+                    string dataAgendamento = dr1.GetDateTime(7).ToString().Equals("01/01/1900 00:00:00") ? "" : String.Format("{0:dd/MM/yyyy hh:mm}", dr1.GetDateTime(7)); ;
+                    string falta = dr1.GetBoolean(8).ToString().Equals("True") ? "Sim" : "Não";
 
-                    dt.Rows.Add(new String[] { fila, codigo, descricao, solic });
+                    string especialidae = dr1.GetString(2);
+                    dt.Rows.Add(new String[] { codigo_fila, codigo, solicitante, especialidade, grupo_exames, exames, obs, dataSolicitacao, dataAgendamento, falta });
                 }
 
             }
@@ -149,12 +165,10 @@ public partial class Exames_CadExm : System.Web.UI.Page
     {
         string strConexao = @"Data Source=10.48.16.14;Initial Catalog=Geral_Treina;User Id=h010994;Password=soundgarden";
 
-        string strQuery = "SELECT [cod],[Descricao],[dt_consulta]" +
-        ",[hr_consulta],[executante],[num_consulta]" +
-        "FROM vw_exames_internos_marcados " +
-        "WHERE status = 1 " + //status 4 - aquardando vaga
-        "AND impr = 0 " +
-        "AND rh = " + _rh;
+        string strQuery = "SELECT cod_fila,cod_exame, solicitante,especialidade,obs,cod,dataSolicitacao,dataAgendamento,falta " +
+                            "FROM Exames_Paciente " +
+                            "WHERE exameStatus in (2,4)" + //status 2 - Agendadado e 4  - Reagendado
+                            "AND rh = " + _rh;
 
         using (SqlConnection conn = new SqlConnection(strConexao))
         {
@@ -167,22 +181,36 @@ public partial class Exames_CadExm : System.Web.UI.Page
                 conn.Open();
                 dr1 = cmd.ExecuteReader(CommandBehavior.CloseConnection);
 
-                //dt.Columns.Add("Fila", System.Type.GetType("System.String"));
-                dt.Columns.Add("Exame", System.Type.GetType("System.String"));
-                dt.Columns.Add("Data", System.Type.GetType("System.String"));
-                dt.Columns.Add("Nº Consulta", System.Type.GetType("System.String"));
-                dt.Columns.Add("Executante", System.Type.GetType("System.String"));
+                dt.Columns.Add("Cod_Fila", System.Type.GetType("System.String"));
+                dt.Columns.Add("Codigo", System.Type.GetType("System.String"));
+                //dt.Columns.Add("Cod_Exame", System.Type.GetType("System.String"));
+                dt.Columns.Add("Solicitante", System.Type.GetType("System.String"));
+                dt.Columns.Add("Especialidade", System.Type.GetType("System.String"));
+                dt.Columns.Add("Grupo de Exames", System.Type.GetType("System.String"));
+                dt.Columns.Add("Exames", System.Type.GetType("System.String"));
+                dt.Columns.Add("Observacao", System.Type.GetType("System.String"));
+                dt.Columns.Add("Data Solicitacao", System.Type.GetType("System.String"));
+                dt.Columns.Add("Data Agendamento", System.Type.GetType("System.String"));
+                dt.Columns.Add("Falta no Exame", System.Type.GetType("System.String"));
+
 
                 while (dr1.Read())
                 {
-                    //string fila = dr1.GetInt32(0).ToString();
-                    //string codigo = dr1.GetInt32(1).ToString();
-                    string exame = dr1.GetString(1);
-                    string data = Convert.ToString(dr1.GetDateTime(2).ToShortDateString()) + " as " + dr1.GetString(3);
-                    string numCon = dr1.GetString(5);
-                    string executante = dr1.GetString(4);
+                    string codigo_fila = dr1.GetInt32(0).ToString();
+                    //string codigo_exame = dr1.GetInt32(1).ToString();
+                    string solicitante = dr1.GetString(2);
+                    string especialidade = dr1.GetString(3);
+                    string grupo_exames = getGrupoExame(dr1.GetInt32(1));
+                    string exames = getExame(dr1.GetInt32(1));
+                    string obs = dr1.GetString(4);
+                    string codigo = dr1.GetInt32(5).ToString();
+                    string dataSolicitacao = String.Format("{0:dd/MM/yyyy}", dr1.GetDateTime(6));
+                    string dataAgendamento = dr1.GetDateTime(7).ToString().Equals("01/01/1900 00:00:00") ? "" : String.Format("{0:dd/MM/yyyy hh:mm}", dr1.GetDateTime(7)); ;
+                    string falta = dr1.GetBoolean(8).ToString().Equals("True") ? "Sim" : "Não";
 
-                    dt.Rows.Add(new String[] { exame, data, numCon, executante });
+
+                    string especialidae = dr1.GetString(2);
+                    dt.Rows.Add(new String[] { codigo_fila, codigo, solicitante, especialidade, grupo_exames, exames, obs, dataSolicitacao, dataAgendamento, falta });
                 }
 
             }
@@ -196,5 +224,48 @@ public partial class Exames_CadExm : System.Web.UI.Page
             }
             return dt;
         }
+    }
+        public static string getExame(int cod)
+        {
+            string descr = "";
+            using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["SqlServices"].ToString()))
+            {
+                SqlCommand cmm = cnn.CreateCommand();
+                cmm.CommandText = "Select Descricao from Exames where Cod_Exame = " + cod;
+                cnn.Open();
+                SqlDataReader dr = cmm.ExecuteReader();
+                if (dr.Read())
+                {
+                    descr = dr.GetString(0);
+                }
+            }
+            return descr;
+        }
+        public static string getGrupoExame(int cod)
+        {
+            string descr = "";
+            using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["SqlServices"].ToString()))
+            {
+                SqlCommand cmm = cnn.CreateCommand();
+                cmm.CommandText = "SELECT g.Descricao FROM [Geral_Treina].[dbo].[Exames] as e join [Geral_Treina].[dbo].[Grupo_Exame] as g"
+            + " on e.Cod_Grupo_Exame = g.Cod_Grupo_Exame where e.Cod_Exame =" + cod;
+                cnn.Open();
+                SqlDataReader dr = cmm.ExecuteReader();
+                if (dr.Read())
+                {
+                    descr = dr.GetString(0);
+                }
+            }
+            return descr;
+        }
+    protected void grvExamesSolicitados_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        e.Row.Cells[0].Visible = false;
+        e.Row.Cells[1].Visible = false;
+    }
+    protected void grvExamesMarcados_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        e.Row.Cells[0].Visible = false;
+        e.Row.Cells[1].Visible = false;
     }
 }

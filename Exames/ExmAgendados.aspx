@@ -77,8 +77,8 @@
     <br />
     <asp:Panel ID="Panel5" runat="server" GroupingText="Exames solicitados">
         <asp:GridView ID="GridView3" runat="server" CellPadding="4" GridLines="Vertical"
-            AutoGenerateSelectButton="True" Font-Size="Small" Width="850px" BackColor="White"
-            BorderColor="#336666" BorderStyle="Double" BorderWidth="1px" OnSelectedIndexChanged="GridView3_SelectedIndexChanged">
+             Font-Size="Small" Width="850px" BackColor="White"
+            BorderColor="#336666" BorderStyle="Double" BorderWidth="1px" OnRowDataBound="grvExamesSolicitados_RowDataBound">
             <RowStyle BackColor="White" ForeColor="#333333" />
             <FooterStyle BackColor="White" ForeColor="#333333" />
             <PagerStyle BackColor="#336666" ForeColor="White" HorizontalAlign="Center" />
@@ -90,7 +90,7 @@
     <asp:Panel ID="Panel1" runat="server" GroupingText="Exames Marcados">
         <asp:GridView ID="GridView1" runat="server" CellPadding="4" GridLines="Vertical"
            Font-Size="Small" Width="850px" BackColor="White"
-            BorderColor="#336666" BorderStyle="Double" BorderWidth="1px" >
+            BorderColor="#336666" BorderStyle="Double" BorderWidth="1px" OnRowDataBound="grvExamesMarcados_RowDataBound" >
             <RowStyle BackColor="White" ForeColor="#333333" />
             <FooterStyle BackColor="White" ForeColor="#333333" />
             <PagerStyle BackColor="#336666" ForeColor="White" HorizontalAlign="Center" />

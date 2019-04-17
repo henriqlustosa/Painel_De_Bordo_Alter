@@ -165,6 +165,7 @@ public partial class Exames_cadExamest : System.Web.UI.Page
     }
     protected void ddlExame_SelectedIndexChanged(object sender, EventArgs e)
     {
+
         string cod_exame = ddlExame.SelectedItem.Value;
         string solicitante = "";
         string especialidade = "";
@@ -186,24 +187,19 @@ public partial class Exames_cadExamest : System.Web.UI.Page
                     solicitante = dr2.GetString(0);
                     especialidade = dr2.GetString(1);
                     rh = dr2.GetInt32(2).ToString();
-                    ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(),
-                              "question",
-                              "<script type = 'text/javascript'>if(confirm('O paciente de RH: " + rh + " já realizou o pedido deste exame. Solicitado por " + solicitante + " pela especialidade " + especialidade + "')){Continuar();} else {FecharJanela();}</script>",
-                              false);
+                    ScriptManager.RegisterClientScriptBlock(this.Page, this.Page.GetType(), "question", "<script type = 'text/javascript'>if(confirm('O paciente de RH: " + rh + " já realizou o pedido deste exame. Solicitado por " + solicitante + " pela especialidade " + especialidade + "')){Continuar();} else {FecharJanela();}</script>", false);
                     // Response.Write("<script language='javascript'>confirm('O paciente de RH: " + rh + " já realizou o pedido deste exame. Solicitado por " + solicitante + " pela especialidade " + especialidade + "');</script>");
 
                 }
-
             }
+
         }
         catch (SqlException e1)
         {
             Response.Write("<script language='javascript'>alert('Erro ao inserir registro " + e1.Message + "');</script>");
         }
+
     }
-
-
-
     protected void ddlGrupo_SelectedIndexChanged(object sender, EventArgs e)
     {
         using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["SqlServices"].ToString()))
@@ -228,22 +224,62 @@ public partial class Exames_cadExamest : System.Web.UI.Page
 
         try
         {
+            string cod_exame = ddlExame.SelectedItem.Value;
+            string solicitante = "";
+            string especialidade = "";
+            string rh = Request.QueryString["rh"];
+            // Validar se o exame já foi realizado
+            try
+            {
+                using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["SqlServices"].ToString()))
+                {
 
-            InserirExames();
-            AdicionarExame();
-            Response.Write("<script language=javascript>alert('Cadastrado com sucesso!');</script>");
-       
+                    SqlCommand cmm = cnn.CreateCommand();
+                    cmm.Connection = cnn;
+                    cnn.Open();
+                    cmm.CommandText = "SELECT top 1 solicitante,especialidade,rh FROM [Geral_Treina].[dbo].[Exames_Paciente] where rh = " + rh + " and impr = 0  and cod_exame = " + cod_exame + "order by dataAgendamento desc ";
 
-            this.ClientScript.RegisterClientScriptBlock(this.GetType(), "Fechar", "closePopupWindow()", true);
-         
+                    SqlDataReader dr2 = cmm.ExecuteReader();
+                    if (dr2.Read())
+                    {
+                        solicitante = dr2.GetString(0);
+                        especialidade = dr2.GetString(1);
+                        rh = dr2.GetInt32(2).ToString();
+                       
+
+
+                        ScriptManager.RegisterClientScriptBlock(this.Page ,this.Page.GetType(), "question", "<script type = 'text/javascript'>if(confirm('O paciente de RH: " + rh + " já realizou o pedido deste exame. Solicitado por " + solicitante + " pela especialidade " + especialidade + "')){Continuar();} else {FecharJanela();}</script>", false);
+                      
+
+                    }
+
+
+                  InserirExames();
+                  AdicionarExame();
+                  Response.Write("<script language=javascript>alert('Cadastrado com sucesso!');</script>");
+
+
+                  this.ClientScript.RegisterClientScriptBlock(this.GetType(), "Fechar", "closePopupWindow()", true);
+                    
+                }
+            }
+            catch (SqlException e1)
+            {
+                Response.Write("<script language='javascript'>alert('Erro ao inserir registro " + e1.Message + "');</script>");
+            }
         }
+
+           
+         
+        
         catch (SqlException e1)
         {
             Response.Write("<script language='javascript'>alert('Erro ao inserir registro " + e1.Message + "');</script>");
         }
     }
 
-  
+   
+
     private void InserirExames()
     {
         int rh = Convert.ToInt32(lbRh.Text);
@@ -375,44 +411,77 @@ public partial class Exames_cadExamest : System.Web.UI.Page
     {
         string dataAgendamento = txbDtAgendamento.Text;
         string dataSolicitacao = txbDtSolicitacao.Text;
+        DateTime dateAgend = new DateTime();
 
-        DateTime dateAgend = new DateTime(Convert.ToInt32(dataAgendamento.Substring(6, 4)),Convert.ToInt32(dataAgendamento.Substring(3, 2)), Convert.ToInt32(dataAgendamento.Substring(0, 2)) );
-        DateTime dateSolic= new DateTime(Convert.ToInt32(dataSolicitacao.Substring(6, 4)), Convert.ToInt32(dataSolicitacao.Substring(3, 2)), Convert.ToInt32(dataSolicitacao.Substring(0, 2)) );
-        if (txbDtAgendamento.Text != "" && ddlSituacao.SelectedItem.Value == "1")
+        if (txbDtSolicitacao.Text.Equals(""))
         {
-            Response.Write("<script language='javascript'>alert('Atenção: Data de Agendamento marcado, portanto o status do exame não pode ser como encaminhado.');</script>");
-          
+            Response.Write("<script language='javascript'>alert('Atenção: A Data de Solicitação precisa ser preenchida.");
         }
-        else if (txbDtAgendamento.Text == "" && ( ddlSituacao.SelectedItem.Value == "2" || ddlSituacao.SelectedItem.Value == "4"))
+        else { }
         {
-            Response.Write("<script language='javascript'>alert('Atenção: Situação Agendada ou Reagendada,portanto a data de Agendamento precisa ter um valor.');</script>");
-        
-        }
-        else if (dateAgend < dateSolic)
-        {
-            Response.Write("<script language='javascript'>alert('Atenção: A Data de Agendamento é menor que Data de Atualização');</script>");
-            
-        }
-        else
-        {
-            try
+            if (dataAgendamento != "")
+                dateAgend = new DateTime(Convert.ToInt32(dataAgendamento.Substring(6, 4)), Convert.ToInt32(dataAgendamento.Substring(3, 2)), Convert.ToInt32(dataAgendamento.Substring(0, 2)));
+
+            DateTime dateSolic = new DateTime(Convert.ToInt32(dataSolicitacao.Substring(6, 4)), Convert.ToInt32(dataSolicitacao.Substring(3, 2)), Convert.ToInt32(dataSolicitacao.Substring(0, 2)));
+
+
+
+
+            string cod_exame = ddlExame.SelectedItem.Value;
+
+            string rh = Request.QueryString["rh"];
+            // Validar se o exame já foi realizado
+
+
+
+
+            if (txbDtAgendamento.Text != "" && ddlSituacao.SelectedItem.Value == "1")
             {
-
-                LogExamesPacientes();
-                UpdateExames();
-
+                Response.Write("<script language='javascript'>alert('Atenção: Data de Agendamento marcado, portanto o status do exame não pode ser como encaminhado.');</script>");
 
             }
-            catch (SqlException e1)
+            else if (txbDtAgendamento.Text == "" && (ddlSituacao.SelectedItem.Value == "2" || ddlSituacao.SelectedItem.Value == "4"))
             {
-                Response.Write("<script language='javascript'>alert('Erro ao atualizar registro " + e1.Message + "');</script>");
+                Response.Write("<script language='javascript'>alert('Atenção: Situação Agendada ou Reagendada,portanto a data de Agendamento precisa ter um valor.');</script>");
+
             }
+            else if (dataAgendamento != "")
 
-            Response.Write("<script language=javascript>alert('Atualizado com sucesso!');</script>");
-            this.ClientScript.RegisterClientScriptBlock(this.GetType(), "Fechar", "window.close()", true);
+                if (dateAgend < dateSolic)
+                {
+                    Response.Write("<script language='javascript'>alert('Atenção: A Data de Agendamento é menor que Data de Atualização');</script>");
 
+                }
+                else
+                {
+                    try
+                    {
+
+                        LogExamesPacientes();
+                        UpdateExames();
+
+
+                    }
+                    catch (SqlException e1)
+                    {
+                        Response.Write("<script language='javascript'>alert('Erro ao atualizar registro " + e1.Message + "');</script>");
+                    }
+
+                    Response.Write("<script language=javascript>alert('Atualizado com sucesso!');</script>");
+                    this.ClientScript.RegisterClientScriptBlock(this.GetType(), "Fechar", "window.close()", true);
+
+                }
         }
         LimparPagina();
+                    
+                
+            
+           
+        
+    
+
+
+
 
     }
 
