@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Painel_De_Bordo_Alter", ".", "{9ADDFBBC-EA32-415A-A20B-95ADB3DA1379}"
+	ProjectSection(WebsiteProperties) = preProject
+		Frontpage = "false"
+		TargetFramework = "3.5"
+		Debug.AspNetCompiler.VirtualPath = "/Painel_De_Bordo_Alter"
+		Debug.AspNetCompiler.PhysicalPath = "..\Painel_De_Bordo_Alter\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\Painel_De_Bordo_Alter\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/Painel_De_Bordo_Alter"
+		Release.AspNetCompiler.PhysicalPath = "..\Painel_De_Bordo_Alter\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\Painel_De_Bordo_Alter\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "32556"
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9ADDFBBC-EA32-415A-A20B-95ADB3DA1379}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9ADDFBBC-EA32-415A-A20B-95ADB3DA1379}.Debug|Any CPU.Build.0 = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
