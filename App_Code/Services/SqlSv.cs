@@ -121,7 +121,9 @@ public class SqlSv
                 }
             }
             catch (Exception ex)
-            { }
+            {
+                string erro = ex.Message;
+            }
         }
         
         
@@ -219,7 +221,9 @@ public class SqlSv
                 }
             }
             catch (Exception ex)
-            { }
+            {
+               string erro = ex.Message;
+            }
         
         }
         return dp;

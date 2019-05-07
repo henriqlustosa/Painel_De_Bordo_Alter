@@ -20,7 +20,8 @@ public partial class Exames_cadExamest : System.Web.UI.Page
 
         if (!IsPostBack)
         {
-            txbDtSolicitacao.Text = FormatarData3(DateTime.Now.ToString());
+            string dataSolicitacao = DateTime.Now.Date.Day.ToString().PadLeft(2, '0') + "/" + DateTime.Now.Date.Month.ToString().PadLeft(2, '0') + "/" + DateTime.Now.Date.Year.ToString().PadLeft(2, '0');
+            txbDtSolicitacao.Text = dataSolicitacao;
             btnAtualizar.Enabled = false;
             CarregaPagina(strID);
             CarregaNome();
