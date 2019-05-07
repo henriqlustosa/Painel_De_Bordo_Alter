@@ -94,7 +94,7 @@ public class FilaExames
 					string obs = dr1.GetString(4);
 					string codigo = dr1.GetInt32(5).ToString();
 					string dataSolicitacao = String.Format("{0:dd/MM/yyyy}", dr1.GetDateTime(6));
-					string dataAgendamento = dr1.GetDateTime(7).ToString().Equals("01/01/1900 00:00:00") || dr1.GetDateTime(7).ToString().Equals("01/01/1900 12:00:00") ? "" : String.Format("{0:dd/MM/yyyy hh:mm}", dr1.GetDateTime(7)); ;
+                    string dataAgendamento = dr1.GetDateTime(7).ToString().Equals("01/01/1900 00:00:00") || dr1.GetDateTime(7).ToString().Equals("1/1/1900 00:00:00") ? "" : String.Format("{0:dd/MM/yyyy hh:mm}", dr1.GetDateTime(7)); ;
 					string falta = dr1.GetBoolean(8).ToString().Equals("True") ? "Sim" : "Não";
 
 					string especialidae = dr1.GetString(2);
@@ -160,7 +160,7 @@ public class FilaExames
 					string obs = dr1.GetString(4);
 					string codigo = dr1.GetInt32(5).ToString();
 					string dataSolicitacao = String.Format("{0:dd/MM/yyyy}", dr1.GetDateTime(6));
-					string dataAgendamento = dr1.GetDateTime(7).ToString().Equals("01/01/1900 00:00:00") || dr1.GetDateTime(7).ToString().Equals("01/01/1900 12:00:00") ? "" : String.Format("{0:dd/MM/yyyy hh:mm}", dr1.GetDateTime(7)); ;
+                    string dataAgendamento = dr1.GetDateTime(7).ToString().Equals("01/01/1900 00:00:00") || dr1.GetDateTime(7).ToString().Equals("1/1/1900 00:00:00") ? "" : String.Format("{0:dd/MM/yyyy hh:mm}", dr1.GetDateTime(7)); ;
 					string falta = dr1.GetBoolean(8).ToString().Equals("True") ? "Sim" : "Não";
 
 
