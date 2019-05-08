@@ -412,41 +412,34 @@ public partial class Exames_cadExamest : System.Web.UI.Page
     {
         string dataAgendamento = txbDtAgendamento.Text;
         string dataSolicitacao = txbDtSolicitacao.Text;
+        string cod_exame = ddlExame.SelectedItem.Value;
+        string cod_situacao = ddlSituacao.SelectedItem.Value;
+        string rh = Request.QueryString["rh"];
         DateTime dateAgend = new DateTime();
+        DateTime dateSolic = new DateTime(Convert.ToInt32(dataSolicitacao.Substring(6, 4)), Convert.ToInt32(dataSolicitacao.Substring(3, 2)), Convert.ToInt32(dataSolicitacao.Substring(0, 2)));
+
+        if (dataAgendamento != "")
+            dateAgend = new DateTime(Convert.ToInt32(dataAgendamento.Substring(6, 4)), Convert.ToInt32(dataAgendamento.Substring(3, 2)), Convert.ToInt32(dataAgendamento.Substring(0, 2)));
 
         if (txbDtSolicitacao.Text.Equals(""))
         {
             Response.Write("<script language='javascript'>alert('Atenção: A Data de Solicitação precisa ser preenchida.");
         }
-        else { }
+        else 
         {
-            if (dataAgendamento != "")
-                dateAgend = new DateTime(Convert.ToInt32(dataAgendamento.Substring(6, 4)), Convert.ToInt32(dataAgendamento.Substring(3, 2)), Convert.ToInt32(dataAgendamento.Substring(0, 2)));
 
-            DateTime dateSolic = new DateTime(Convert.ToInt32(dataSolicitacao.Substring(6, 4)), Convert.ToInt32(dataSolicitacao.Substring(3, 2)), Convert.ToInt32(dataSolicitacao.Substring(0, 2)));
-
-
-
-
-            string cod_exame = ddlExame.SelectedItem.Value;
-
-            string rh = Request.QueryString["rh"];
-            // Validar se o exame já foi realizado
-
-
-
-
-            if (txbDtAgendamento.Text != "" && ddlSituacao.SelectedItem.Value == "1")
+            if (dataAgendamento != "" && cod_situacao == "1")
             {
                 Response.Write("<script language='javascript'>alert('Atenção: Data de Agendamento marcado, portanto o status do exame não pode ser como encaminhado.');</script>");
 
             }
-            else if (txbDtAgendamento.Text == "" && (ddlSituacao.SelectedItem.Value == "2" || ddlSituacao.SelectedItem.Value == "4"))
+            else if (dataAgendamento == "" && (cod_situacao == "2" || cod_situacao == "4"))
             {
                 Response.Write("<script language='javascript'>alert('Atenção: Situação Agendada ou Reagendada,portanto a data de Agendamento precisa ter um valor.');</script>");
 
             }
             else if (dataAgendamento != "")
+            {
 
                 if (dateAgend < dateSolic)
                 {
@@ -472,6 +465,25 @@ public partial class Exames_cadExamest : System.Web.UI.Page
                     this.ClientScript.RegisterClientScriptBlock(this.GetType(), "Fechar", "window.close()", true);
 
                 }
+            }
+            else
+            {
+                try
+                {
+
+                    LogExamesPacientes();
+                    UpdateExames();
+
+
+                }
+                catch (SqlException e1)
+                {
+                    Response.Write("<script language='javascript'>alert('Erro ao atualizar registro " + e1.Message + "');</script>");
+                }
+
+                Response.Write("<script language=javascript>alert('Atualizado com sucesso!');</script>");
+                this.ClientScript.RegisterClientScriptBlock(this.GetType(), "Fechar", "window.close()", true);
+            }
         }
         LimparPagina();
                     
