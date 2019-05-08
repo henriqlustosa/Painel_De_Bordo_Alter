@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Globalization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Collections.Generic;
 
 public partial class Exames_cadExamest : System.Web.UI.Page
 {
@@ -421,16 +422,16 @@ public partial class Exames_cadExamest : System.Web.UI.Page
         if (dataAgendamento != "")
             dateAgend = new DateTime(Convert.ToInt32(dataAgendamento.Substring(6, 4)), Convert.ToInt32(dataAgendamento.Substring(3, 2)), Convert.ToInt32(dataAgendamento.Substring(0, 2)));
 
-        if (txbDtSolicitacao.Text.Equals(""))
+        if (dataSolicitacao.Equals(""))
         {
             Response.Write("<script language='javascript'>alert('Atenção: A Data de Solicitação precisa ser preenchida.");
         }
         else 
         {
 
-            if (dataAgendamento != "" && cod_situacao == "1")
+            if (dataAgendamento != "" && (cod_situacao == "1" || cod_situacao == "6"))
             {
-                Response.Write("<script language='javascript'>alert('Atenção: Data de Agendamento marcado, portanto o status do exame não pode ser como encaminhado.');</script>");
+                Response.Write("<script language='javascript'>alert('Atenção: Data de Agendamento marcado, portanto o status do exame não pode ser como encaminhado ou recebido.');</script>");
 
             }
             else if (dataAgendamento == "" && (cod_situacao == "2" || cod_situacao == "4"))
@@ -501,6 +502,16 @@ public partial class Exames_cadExamest : System.Web.UI.Page
 
     protected void grvExamesMarcados_SelectedIndexChanged(object sender, EventArgs e)
     {
+        Dictionary<string, string> dict = new Dictionary<string, string>()
+                                                {
+                                                    {"1","Enc. UAC"},
+                                                    {"2", "Agendado"},
+                                                    {"3","Cancelado"},
+                                                    {"4","Reagendado"},
+                                                    {"5", "Não Localizado"},
+                                                    {"6","Recebido"}
+                                                };
+        string key = KeyByValue(dict, grvExamesSolicitados.SelectedRow.Cells[7].Text); 
         btnCadastrar.Enabled = false;
         btnAtualizar.Enabled = true;
         string cod = grvExamesMarcados.SelectedRow.Cells[2].Text;
@@ -509,34 +520,13 @@ public partial class Exames_cadExamest : System.Web.UI.Page
         ddlGrupo.SelectedItem.Text = grvExamesMarcados.SelectedRow.Cells[5].Text;
         ddlExame.SelectedItem.Text = grvExamesMarcados.SelectedRow.Cells[6].Text;
         txbObs.Text = Server.HtmlDecode(grvExamesMarcados.SelectedRow.Cells[7].Text);
-        txbDtSolicitacao.Text = grvExamesMarcados.SelectedRow.Cells[8].Text;
-        txbDtAgendamento.Text = Server.HtmlDecode(grvExamesMarcados.SelectedRow.Cells[9].Text);
-        bool falta = grvExamesMarcados.SelectedRow.Cells[10].Text.Equals("Sim") ? true : false;
+        ddlSituacao.SelectedValue = key;
+        txbDtSolicitacao.Text = grvExamesMarcados.SelectedRow.Cells[9].Text;
+        txbDtAgendamento.Text = Server.HtmlDecode(grvExamesMarcados.SelectedRow.Cells[10].Text);
+        bool falta = grvExamesMarcados.SelectedRow.Cells[11].Text.Equals("Sim") ? true : false;
         chbFaltou.Checked = falta;
 
-        try
-        {
-            using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["SqlServices"].ToString()))
-            {
-
-                SqlCommand cmm = cnn.CreateCommand();
-                cmm.Connection = cnn;
-                cnn.Open();
-                cmm.CommandText = "Select exameStatus from Exames_Paciente WHERE cod =" + cod;
-
-                SqlDataReader dr2 = cmm.ExecuteReader();
-                if (dr2.Read())
-                {
-                    ddlSituacao.SelectedValue = dr2.GetInt32(0).ToString();
-
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            string erro = ex.Message;
-
-        }
+        
     }
     protected string FormatarData(string data)
     {
@@ -712,6 +702,16 @@ public partial class Exames_cadExamest : System.Web.UI.Page
 
     protected void grvExamesSolicitados_SelectedIndexChanged(object sender, EventArgs e)
     {
+        Dictionary<string, string> dict = new Dictionary<string, string>()
+                                                {
+                                                    {"1","Enc. UAC"},
+                                                    {"2", "Agendado"},
+                                                    {"3","Cancelado"},
+                                                    {"4","Reagendado"},
+                                                    {"5", "Não Localizado"},
+                                                    {"6","Recebido"}
+                                                };
+        string key = KeyByValue(dict, grvExamesSolicitados.SelectedRow.Cells[7].Text); 
         btnCadastrar.Enabled = false;
         btnAtualizar.Enabled = true;
         string cod = grvExamesSolicitados.SelectedRow.Cells[2].Text;
@@ -719,35 +719,27 @@ public partial class Exames_cadExamest : System.Web.UI.Page
         lbEspecialidade.Text = grvExamesSolicitados.SelectedRow.Cells[4].Text;
         ddlGrupo.SelectedItem.Text = grvExamesSolicitados.SelectedRow.Cells[5].Text;
         ddlExame.SelectedItem.Text = grvExamesSolicitados.SelectedRow.Cells[6].Text;
-        txbObs.Text = Server.HtmlDecode(grvExamesSolicitados.SelectedRow.Cells[7].Text);
-        txbDtSolicitacao.Text = grvExamesSolicitados.SelectedRow.Cells[8].Text;
-        txbDtAgendamento.Text = Server.HtmlDecode(grvExamesSolicitados.SelectedRow.Cells[9].Text);
-        bool falta = grvExamesSolicitados.SelectedRow.Cells[10].Text.Equals("Sim") ? true : false;
+        ddlSituacao.SelectedValue = key;
+        txbObs.Text = Server.HtmlDecode(grvExamesSolicitados.SelectedRow.Cells[8].Text);
+        txbDtSolicitacao.Text = grvExamesSolicitados.SelectedRow.Cells[9].Text;
+        txbDtAgendamento.Text = Server.HtmlDecode(grvExamesSolicitados.SelectedRow.Cells[10].Text);
+        bool falta = grvExamesSolicitados.SelectedRow.Cells[11].Text.Equals("Sim") ? true : false;
         chbFaltou.Checked = falta;
-        try
+   
+
+    }
+    public static string KeyByValue(Dictionary<string, string> dict, string val)
+    {
+        string key = null;
+        foreach (KeyValuePair<string, string> pair in dict)
         {
-            using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["SqlServices"].ToString()))
+            if (pair.Value == val)
             {
-
-                SqlCommand cmm = cnn.CreateCommand();
-                cmm.Connection = cnn;
-                cnn.Open();
-                cmm.CommandText = "Select exameStatus from Exames_Paciente WHERE cod =" + cod;
-
-                SqlDataReader dr2 = cmm.ExecuteReader();
-                if (dr2.Read())
-                {
-                    ddlSituacao.SelectedValue = dr2.GetInt32(0).ToString();
-
-                }
+                key = pair.Key;
+                break;
             }
         }
-        catch (Exception ex)
-        {
-            string erro = ex.Message;
-
-        }
-
+        return key;
     }
 
     protected void grvExamesSolicitados_RowDataBound(object sender, GridViewRowEventArgs e)

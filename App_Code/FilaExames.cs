@@ -54,8 +54,8 @@ public class FilaExames
 	public static DataTable gridCarregaExamesSolicitados( string cod_fila)
 	{
 		string strConexao = @"Data Source=10.48.16.14;Initial Catalog=Geral_Treina;User Id=h010994;Password=soundgarden";
-		string strQuery = "SELECT cod_fila,cod_exame, solicitante,especialidade,obs,cod,dataSolicitacao,dataAgendamento,falta " +
-							"FROM Exames_Paciente " +
+		string strQuery = "SELECT cod_fila,cod_exame, solicitante,especialidade,obs,cod,dataSolicitacao,dataAgendamento,falta, Descricao " +
+                            "FROM [Geral_Treina].[dbo].[Exames_Paciente] as e join [Geral_Treina].[dbo].[Situacao_Exame] as s on e.exameStatus = s.Cod_Situacao " +
 							"WHERE exameStatus in (1,6)" + //status 1 - aguardando vaga
 							"AND cod_fila = " + cod_fila; 
 
@@ -77,6 +77,7 @@ public class FilaExames
 				dt.Columns.Add("Especialidade", System.Type.GetType("System.String"));
 				dt.Columns.Add("Grupo de Exames", System.Type.GetType("System.String"));
 				dt.Columns.Add("Exames", System.Type.GetType("System.String"));
+                dt.Columns.Add("Situacao", System.Type.GetType("System.String"));
 				dt.Columns.Add("Observacao", System.Type.GetType("System.String"));
 				dt.Columns.Add("Data Solicitacao", System.Type.GetType("System.String"));
 				dt.Columns.Add("Data Agendamento", System.Type.GetType("System.String"));
@@ -96,9 +97,10 @@ public class FilaExames
 					string dataSolicitacao = String.Format("{0:dd/MM/yyyy}", dr1.GetDateTime(6));
                     string dataAgendamento = dr1.GetDateTime(7).ToString().Equals("01/01/1900 00:00:00") || dr1.GetDateTime(7).ToString().Equals("1/1/1900 00:00:00") ? "" : String.Format("{0:dd/MM/yyyy hh:mm}", dr1.GetDateTime(7)); ;
 					string falta = dr1.GetBoolean(8).ToString().Equals("True") ? "Sim" : "Não";
+                    string situacao = dr1.GetString(9);
 
 					string especialidae = dr1.GetString(2);
-					dt.Rows.Add(new String[] { codigo_fila, codigo, solicitante, especialidade, grupo_exames, exames, obs,dataSolicitacao,dataAgendamento,falta });
+					dt.Rows.Add(new String[] { codigo_fila, codigo, solicitante, especialidade, grupo_exames, exames,situacao, obs,dataSolicitacao,dataAgendamento,falta });
 				}
 
 			}
@@ -120,8 +122,8 @@ public class FilaExames
 	{
 		string strConexao = @"Data Source=10.48.16.14;Initial Catalog=Geral_Treina;User Id=h010994;Password=soundgarden";
 
-		string strQuery = "SELECT cod_fila,cod_exame, solicitante,especialidade,obs,cod,dataSolicitacao,dataAgendamento,falta " +
-							"FROM Exames_Paciente " +
+		string strQuery = "SELECT cod_fila,cod_exame, solicitante,especialidade,obs,cod,dataSolicitacao,dataAgendamento,falta,Descricao " +
+                            "FROM [Geral_Treina].[dbo].[Exames_Paciente] as e join [Geral_Treina].[dbo].[Situacao_Exame] as s on e.exameStatus = s.Cod_Situacao " +
 							"WHERE exameStatus in (2,4)" + //status 2 - Agendadado e 4  - Reagendado
 							"AND cod_fila = " + cod_fila;
 
@@ -143,6 +145,7 @@ public class FilaExames
 				dt.Columns.Add("Especialidade", System.Type.GetType("System.String"));
 				dt.Columns.Add("Grupo de Exames", System.Type.GetType("System.String"));
 				dt.Columns.Add("Exames", System.Type.GetType("System.String"));
+                dt.Columns.Add("Situacao", System.Type.GetType("System.String"));
 				dt.Columns.Add("Observacao", System.Type.GetType("System.String"));
 				dt.Columns.Add("Data Solicitacao", System.Type.GetType("System.String"));
 				dt.Columns.Add("Data Agendamento", System.Type.GetType("System.String"));
@@ -162,10 +165,11 @@ public class FilaExames
 					string dataSolicitacao = String.Format("{0:dd/MM/yyyy}", dr1.GetDateTime(6));
                     string dataAgendamento = dr1.GetDateTime(7).ToString().Equals("01/01/1900 00:00:00") || dr1.GetDateTime(7).ToString().Equals("1/1/1900 00:00:00") ? "" : String.Format("{0:dd/MM/yyyy hh:mm}", dr1.GetDateTime(7)); ;
 					string falta = dr1.GetBoolean(8).ToString().Equals("True") ? "Sim" : "Não";
+                    string situacao = dr1.GetString(9);
 
 
 					string especialidae = dr1.GetString(2);
-					dt.Rows.Add(new String[] { codigo_fila, codigo, solicitante, especialidade, grupo_exames, exames, obs, dataSolicitacao, dataAgendamento, falta });
+					dt.Rows.Add(new String[] { codigo_fila, codigo, solicitante, especialidade, grupo_exames, exames,situacao, obs, dataSolicitacao, dataAgendamento, falta });
 				}
 
 			}
