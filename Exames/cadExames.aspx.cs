@@ -76,6 +76,7 @@ public partial class Exames_cadExamest : System.Web.UI.Page
 
         }
     }
+ 
 
     public void CarregaPagina(string strID)
     {
@@ -498,10 +499,9 @@ public partial class Exames_cadExamest : System.Web.UI.Page
 
 
     }
-
-
-    protected void grvExamesMarcados_SelectedIndexChanged(object sender, EventArgs e)
+    protected void grvExamesSolicitados_SelectedIndexChanged(object sender, EventArgs e)
     {
+        grvExamesMarcados.SelectedIndex = -1;
         Dictionary<string, string> dict = new Dictionary<string, string>()
                                                 {
                                                     {"1","Enc. UAC"},
@@ -511,15 +511,47 @@ public partial class Exames_cadExamest : System.Web.UI.Page
                                                     {"5", "Não Localizado"},
                                                     {"6","Recebido"}
                                                 };
-        string key = KeyByValue(dict, grvExamesSolicitados.SelectedRow.Cells[7].Text); 
+        string key = KeyByValue(dict, grvExamesSolicitados.SelectedRow.Cells[7].Text);
+        btnCadastrar.Enabled = false;
+        btnAtualizar.Enabled = true;
+        string cod = grvExamesSolicitados.SelectedRow.Cells[2].Text;
+        lbSolicitante.Text = grvExamesSolicitados.SelectedRow.Cells[3].Text;
+        lbEspecialidade.Text = grvExamesSolicitados.SelectedRow.Cells[4].Text;
+        ddlGrupo.SelectedIndex = ddlGrupo.Items.IndexOf(ddlGrupo.Items.FindByText(grvExamesSolicitados.SelectedRow.Cells[5].Text));
+        CarregaExames();
+        ddlExame.SelectedIndex = ddlExame.Items.IndexOf(ddlExame.Items.FindByText(grvExamesSolicitados.SelectedRow.Cells[6].Text));
+        ddlSituacao.SelectedValue = key;
+        txbObs.Text = Server.HtmlDecode(grvExamesSolicitados.SelectedRow.Cells[8].Text);
+        txbDtSolicitacao.Text = grvExamesSolicitados.SelectedRow.Cells[9].Text;
+        txbDtAgendamento.Text = Server.HtmlDecode(grvExamesSolicitados.SelectedRow.Cells[10].Text);
+        bool falta = grvExamesSolicitados.SelectedRow.Cells[11].Text.Equals("Sim") ? true : false;
+        chbFaltou.Checked = falta;
+
+
+    }
+
+    protected void grvExamesMarcados_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        grvExamesSolicitados.SelectedIndex =-1;
+        Dictionary<string, string> dict = new Dictionary<string, string>()
+                                                {
+                                                    {"1","Enc. UAC"},
+                                                    {"2", "Agendado"},
+                                                    {"3","Cancelado"},
+                                                    {"4","Reagendado"},
+                                                    {"5", "Não Localizado"},
+                                                    {"6","Recebido"}
+                                                };
+        string key = KeyByValue(dict, grvExamesMarcados.SelectedRow.Cells[7].Text); 
         btnCadastrar.Enabled = false;
         btnAtualizar.Enabled = true;
         string cod = grvExamesMarcados.SelectedRow.Cells[2].Text;
         lbSolicitante.Text = grvExamesMarcados.SelectedRow.Cells[3].Text;
         lbEspecialidade.Text = grvExamesMarcados.SelectedRow.Cells[4].Text;
-        ddlGrupo.SelectedItem.Text = grvExamesMarcados.SelectedRow.Cells[5].Text;
-        ddlExame.SelectedItem.Text = grvExamesMarcados.SelectedRow.Cells[6].Text;
-        txbObs.Text = Server.HtmlDecode(grvExamesMarcados.SelectedRow.Cells[7].Text);
+        ddlGrupo.SelectedIndex = ddlGrupo.Items.IndexOf(ddlGrupo.Items.FindByText(grvExamesMarcados.SelectedRow.Cells[5].Text));
+        CarregaExames();
+        ddlExame.SelectedIndex = ddlExame.Items.IndexOf(ddlExame.Items.FindByText(grvExamesMarcados.SelectedRow.Cells[6].Text));
+        txbObs.Text = Server.HtmlDecode(grvExamesMarcados.SelectedRow.Cells[8].Text);
         ddlSituacao.SelectedValue = key;
         txbDtSolicitacao.Text = grvExamesMarcados.SelectedRow.Cells[9].Text;
         txbDtAgendamento.Text = Server.HtmlDecode(grvExamesMarcados.SelectedRow.Cells[10].Text);
@@ -700,34 +732,7 @@ public partial class Exames_cadExamest : System.Web.UI.Page
 
 
 
-    protected void grvExamesSolicitados_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        Dictionary<string, string> dict = new Dictionary<string, string>()
-                                                {
-                                                    {"1","Enc. UAC"},
-                                                    {"2", "Agendado"},
-                                                    {"3","Cancelado"},
-                                                    {"4","Reagendado"},
-                                                    {"5", "Não Localizado"},
-                                                    {"6","Recebido"}
-                                                };
-        string key = KeyByValue(dict, grvExamesSolicitados.SelectedRow.Cells[7].Text); 
-        btnCadastrar.Enabled = false;
-        btnAtualizar.Enabled = true;
-        string cod = grvExamesSolicitados.SelectedRow.Cells[2].Text;
-        lbSolicitante.Text = grvExamesSolicitados.SelectedRow.Cells[3].Text;
-        lbEspecialidade.Text = grvExamesSolicitados.SelectedRow.Cells[4].Text;
-        ddlGrupo.SelectedItem.Text = grvExamesSolicitados.SelectedRow.Cells[5].Text;
-        ddlExame.SelectedItem.Text = grvExamesSolicitados.SelectedRow.Cells[6].Text;
-        ddlSituacao.SelectedValue = key;
-        txbObs.Text = Server.HtmlDecode(grvExamesSolicitados.SelectedRow.Cells[8].Text);
-        txbDtSolicitacao.Text = grvExamesSolicitados.SelectedRow.Cells[9].Text;
-        txbDtAgendamento.Text = Server.HtmlDecode(grvExamesSolicitados.SelectedRow.Cells[10].Text);
-        bool falta = grvExamesSolicitados.SelectedRow.Cells[11].Text.Equals("Sim") ? true : false;
-        chbFaltou.Checked = falta;
-   
-
-    }
+ 
     public static string KeyByValue(Dictionary<string, string> dict, string val)
     {
         string key = null;

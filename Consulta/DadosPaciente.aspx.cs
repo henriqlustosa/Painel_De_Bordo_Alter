@@ -438,8 +438,8 @@ public partial class Consulta_DadosPaciente : System.Web.UI.Page
         Button2.Enabled = true;
         lbcod.Text = GridView6.SelectedRow.Cells[1].Text;
         txbdtSol.Text = GridView6.SelectedRow.Cells[2].Text;
-        ddlEspec.SelectedItem.Text = GridView6.SelectedRow.Cells[3].Text;
-        ddlSol.SelectedItem.Text = GridView6.SelectedRow.Cells[4].Text;
+        ddlEspec.SelectedIndex = ddlEspec.Items.IndexOf(ddlEspec.Items.FindByText(GridView6.SelectedRow.Cells[3].Text));
+        ddlSol.SelectedIndex = ddlSol.Items.IndexOf(ddlSol.Items.FindByText(GridView6.SelectedRow.Cells[4].Text));
         string observacao = "";
         string _ret = GridView6.SelectedRow.Cells[5].Text;
         string _reg = GridView6.SelectedRow.Cells[6].Text;
