@@ -401,7 +401,8 @@ public partial class Exames_cadExames_2 : System.Web.UI.Page
     protected string FormatarData(string data)
     {
 
-        data = data.Substring(6, 4) + "-" + data.Substring(3, 2) + "-" + data.Substring(0, 2) + data.Substring(10, 6);
+        string[] split = data.Split(new Char[] { '/', ' ', ':' });
+        data = split[2] + "-" + split[1].PadLeft(2, '0') + "-" + split[0].PadLeft(2, '0') + " " + split[3].PadLeft(2, '0') + ":" + split[4].PadLeft(2, '0');
 
 
         return data;
@@ -410,10 +411,13 @@ public partial class Exames_cadExames_2 : System.Web.UI.Page
     protected string FormatarData2(string data)
     {
 
-        data = data.Substring(6, 4) + "-" + data.Substring(3, 2) + "-" + data.Substring(0, 2);
+        string[] dt = data.Split('/');
+
+        data = dt[2] + "-" + dt[1].PadLeft(2, '0') + "-" + dt[0].PadLeft(2, '0');
 
 
         return data;
+
 
     }
     protected string FormatarData3(string data)
