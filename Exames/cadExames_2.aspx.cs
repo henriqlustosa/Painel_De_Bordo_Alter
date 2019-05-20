@@ -28,7 +28,7 @@ public partial class Exames_cadExames_2 : System.Web.UI.Page
 
         if (!IsPostBack)
         {
-            txbDtSolicitacao.Text = FormatarData3(DateTime.Now.ToString());
+            
            
 
             string rh = BuscaRh(cod_tabela_exame);
@@ -81,12 +81,13 @@ public partial class Exames_cadExames_2 : System.Web.UI.Page
     {
         try
         {
+            
             using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["SqlServices"].ToString()))
             {
                 /*************** Carrega os Dados RH, Especialidade, Solicitante ************************/
                 SqlCommand cmm = cnn.CreateCommand();
                 cmm.Connection = cnn;
-                cmm.CommandText = "SELECT [rh],[solicitante],[especialidade],[obs],[dataSolicitacao],[dataAgendamento] FROM [Geral_Treina].[dbo].[Exames_Paciente] where cod =" + strID;
+                cmm.CommandText = "SELECT [rh],[solicitante],[especialidade],[obs],[dataSolicitacao],[dataAgendamento],[exameStatus] FROM [Geral_Treina].[dbo].[Exames_Paciente] where cod =" + strID;
                 cnn.Open();
                 SqlDataReader dr = cmm.ExecuteReader();
                 if (dr.Read())
@@ -95,8 +96,8 @@ public partial class Exames_cadExames_2 : System.Web.UI.Page
                     lbSolicitante.Text = dr.GetString(1);
                     lbEspecialidade.Text = dr.GetString(2);
                     txbDtSolicitacao.Text = FormatarData4(dr.GetDateTime(4).ToString());
-                    txbDtAgendamento.Text = dr.GetDateTime(5).ToString().Equals("01/01/1900 00:00:00") ? "" : FormatarData5(dr.GetDateTime(5).ToString());
-
+                    txbDtAgendamento.Text = dr.GetDateTime(5).ToString().Equals("01/01/1900 00:00:00") || dr.GetDateTime(5).ToString().Equals("1/1/1900 00:00:00") ? "" : FormatarData5(dr.GetDateTime(5).ToString());
+                    ddlSituacao.SelectedValue = dr.GetInt32(6).ToString();
                     string observacao = dr.GetString(3);
                     txbObs.Text = HttpUtility.HtmlDecode(observacao);
 
@@ -420,15 +421,7 @@ public partial class Exames_cadExames_2 : System.Web.UI.Page
 
 
     }
-    protected string FormatarData3(string data)
-    {
 
-        data = data.Substring(0, 10);
-
-
-        return data;
-
-    }
 
 
     protected void LimparPágina()
@@ -566,7 +559,8 @@ public partial class Exames_cadExames_2 : System.Web.UI.Page
     protected string FormatarData5(string data)
     {
 
-        data = data.Substring(0,16);
+        string[] split = data.Split(new Char[] { '/', ' ', ':' });
+        data = split[0].PadLeft(2, '0') + "/" + split[1].PadLeft(2, '0') + "/" + split[2] + " " + split[3].PadLeft(2, '0') + ":" + split[4].PadLeft(2, '0');
 
 
         return data;
@@ -576,8 +570,9 @@ public partial class Exames_cadExames_2 : System.Web.UI.Page
 
     protected string FormatarData4(string data)
     {
+        string[] dt = data.Split('/');
 
-        data = data.Substring(0, 10);
+        data = dt[0].PadLeft(2,'0') + "/" + dt[1].PadLeft(2, '0') + "/" + dt[2];
 
 
         return data;
