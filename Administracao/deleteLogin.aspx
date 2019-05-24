@@ -52,7 +52,7 @@
         <SelectedRowStyle BackColor="#E2DED6" Font-Bold="True" ForeColor="#333333" />
     </asp:GridView>
     <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:SqlServices %>"
-        SelectCommand="SELECT aspnet_Users.UserName, aspnet_Users.LastActivityDate, aspnet_Membership.Email, aspnet_Membership.IsLockedOut, aspnet_Membership.CreateDate, aspnet_Membership.LastLoginDate, aspnet_Users.UserId FROM aspnet_Membership INNER JOIN aspnet_Users ON aspnet_Membership.UserId = aspnet_Users.UserId">
+        SelectCommand="SELECT aspnet_Users.UserName, aspnet_Users.LastActivityDate, aspnet_Membership.Email, aspnet_Membership.IsLockedOut, aspnet_Membership.CreateDate, aspnet_Membership.LastLoginDate, aspnet_Users.UserId FROM aspnet_Membership INNER JOIN aspnet_Users ON aspnet_Membership.UserId = aspnet_Users.UserId order by aspnet_Users.UserName">
     </asp:SqlDataSource>
 </asp:Content>
 
