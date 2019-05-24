@@ -31,7 +31,7 @@
       <siteMapNode url="" title="Administração" roles="admin">
         <siteMapNode url="~/Administracao/cadUser.aspx" title="Cadastro Usuário" />
         <siteMapNode url="~/Administracao/Perfil.aspx" title="Perfil de Usuário" />
-        <siteMapNode url="~/Administracao/deleteLogin.aspx" title="Exclui Usuário" />
+        <siteMapNode url="~/Administracao/deleteLogin.aspx" title="Excluir Usuário" />
       </siteMapNode>
       
       
